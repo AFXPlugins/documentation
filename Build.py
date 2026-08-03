@@ -258,7 +258,7 @@ installation_content = f'''
 <h2>3. Verify it loaded</h2>
 <p>On startup, check your console for:</p>
 {code("text", "[CustomPlayerNametags] CustomPlayerNametags enabled.")}
-{callout("Troubleshooting", "If instead you see the server refuse to load the plugin, make sure the latest version of PacketEvents is installed. If it still doesn't work, see <a href='troubleshooting.html'>Troubleshooting</a>.,")}
+{callout("Troubleshooting", "If instead you see the server refuse to load the plugin, make sure the latest version of PacketEvents is installed. If it still doesn't work, see <a href='../troubleshooting/'>Troubleshooting</a>.")}
 <p>Once enabled, it will generate three files in <code>/plugins/CustomPlayerNametags/</code>:</p>
 <div class="table-wrap">
 <table>
@@ -271,7 +271,7 @@ installation_content = f'''
 </table>
 </div>
 {callout("", "*messages.yml and player-formats.yml can be ignored as they only serve as storage for the plugin.")}
-<p>Full breakdown of each file is on the <a href="configuration.html">Configuration</a> page.</p>
+<p>Full breakdown of each file is on the <a href="../configuration/">Configuration</a> page.</p>
 '''
 page("installation", "Installation", "Getting started",
      "How to install CustomPlayerNametags and its dependencies on a Paper server, or build it from source.",
@@ -306,11 +306,11 @@ configuration_content = f'''
 <p class="lede">Guide on configuring CustomPlayerNametags.</p>
 
 <h2 class="no-rule">config.yml</h2>
-<p>Reload any change with <a href="commands.html"><code>/nametags reload</code></a>.</p>
+<p>Reload any change with <a href="../commands/"><code>/nametags reload</code></a>.</p>
 <div class="code-block"><pre><code>{config_yaml_code}</code></pre><button class="copy-btn">copy</button></div>
 
 <h3>nametag-format</h3>
-<p>The global format applied to every player who doesn't have a personal specified format. More information is covered on the <a href="formatting.html">Nametag Formats</a> page.</p>
+<p>The global format applied to every player who doesn't have a personal specified format. More information is covered on the <a href="../formatting/">Nametag Formats</a> page.</p>
 
 <h3>nametag-dismount-mode</h3>
 <p>The nametag is attached to each player using an invisible passenger entity so it stays fixed above their head. Some teleport commands that move a player between worlds/dimensions can fail while that passenger is still attached. This setting controls the feature that temporarily detaches and reattaches the nametag to solve this issue.</p>
@@ -330,7 +330,7 @@ configuration_content = f'''
 <li>No world-management plugin? Use <code>NONE</code>.</li>
 <li>Using Multiverse-Core? Use <code>NONE</code> here, and set <code>passenger-mode</code> to <code>dismount_passengers</code> in Multiverse-Core's own config.</li>
 <li>Using a different world/teleport plugin? Use <code>MANUAL</code> and list its teleport commands in <code>dismount-commands</code>.</li>
-<li>Using Skript? Run <code>/nametags dismount &lt;player&gt;</code> from console before a cross-world teleport &mdash; see the <a href="commands.html#dismount">dismount command</a>.</li>
+<li>Using Skript? Run <code>/nametags dismount &lt;player&gt;</code> from console before a cross-world teleport &mdash; see the <a href="../commands/#dismount">dismount command</a>.</li>
 </ul>
 {callout("AUTO", "It is recommended to not leave <code>nametag-dismount-mode</code> as <code>AUTO</code> because of minor visual bugs that can occur on commands that don't involve world changes.")}
 
@@ -382,7 +382,7 @@ page("configuration", "Configuration", "Reference",
 # =========================================================================
 commands_content = f'''
 <h1>Commands</h1>
-<p class="lede">All CustomPlayerNametags commands are under <code>/nametags</code> (alias <code>/customplayernametags</code>). All commands require the admin permission &mdash; see <a href="permissions.html">Permissions</a>.</p>
+<p class="lede">All CustomPlayerNametags commands are under <code>/nametags</code> (alias <code>/customplayernametags</code>). All commands require the admin permission &mdash; see <a href="../permissions/">Permissions</a>.</p>
 
 <h2 class="no-rule">Top level</h2>
 <div class="table-wrap">
@@ -545,7 +545,7 @@ crossplay_content = f'''
 <p>The nametag is a display entity mounted above the player as a passenger, positioned at a fixed height offset. Geyser's client-side handling of passenger/display-entity positioning doesn't line up the same with vanilla Java rendering, so the plugin applies a small additional correction specifically for viewers detected as Bedrock, so the tag sits at the same visual height it would on Java.</p>
 
 <h2>Dismount windows</h2>
-<p>The brief window where a tag is dismounted and remounted around a teleport (see <a href="configuration.html">nametag-dismount-mode</a>) also gets its own small Bedrock-only height correction, so the remount doesn't produce a visible flicker for Bedrock viewers.</p>
+<p>The brief window where a tag is dismounted and remounted around a teleport (see <a href="../configuration/">nametag-dismount-mode</a>) also gets its own small Bedrock-only height correction, so the remount doesn't produce a visible flicker for Bedrock viewers.</p>
 
 '''
 page("cross-play", "Bedrock & Cross-Play", "Guide",
@@ -567,10 +567,10 @@ troubleshooting_content = f'''
 <p>If placeholders appear unparsed above a player's head instead of resolving, PlaceholderAPI either isn't installed, isn't enabled, or doesn't have the specific expansion registered (e.g. the LuckPerms expansion for <code>%luckperms_prefix%</code>). Make sure PlaceholderAPI is installed and that there are no errors in the console. Next check your placeholder with <code>/papi parse &lt;username&gt; &lt;placeholder&gt;</code> in-game to confirm PlaceholderAPI itself can resolve it.</p>
 
 <h2>Cross-world teleportation not working</h2>
-<p>The tag is a passenger entity, and cross-world/dimension teleport commands can fail while it's still attached. This is exactly what <code>nametag-dismount-mode</code> exists to solve &mdash; see the full explanation on the <a href="configuration.html">Configuration</a> page.</p>
+<p>The tag is a passenger entity, and cross-world/dimension teleport commands can fail while it's still attached. This is exactly what <code>nametag-dismount-mode</code> exists to solve &mdash; see the full explanation on the <a href="../configuration/">Configuration</a> page.</p>
 
 <h2>Tag height looks slightly off for Bedrock players</h2>
-<p>Confirm Floodgate is installed and enabled &mdash; that's how the plugin tells Bedrock viewers apart from Java ones in the first place. See <a href="cross-play.html">Bedrock &amp; Cross-Play</a>.</p>
+<p>Confirm Floodgate is installed and enabled &mdash; that's how the plugin tells Bedrock viewers apart from Java ones in the first place. See <a href="../cross-play/">Bedrock &amp; Cross-Play</a>.</p>
 
 <h2>Nametag not visible</h2>
 <ul>

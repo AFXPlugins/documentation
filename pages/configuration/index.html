@@ -58,7 +58,7 @@
 <p class="lede">Guide on configuring CustomPlayerNametags.</p>
 
 <h2 class="no-rule">config.yml</h2>
-<p>Reload any change with <a href="commands.html"><code>/nametags reload</code></a>.</p>
+<p>Reload any change with <a href="../commands/"><code>/nametags reload</code></a>.</p>
 <div class="code-block"><pre><code><span class="tok-com"># Global format used for all player nametags.</span>
 <span class="tok-com"># Supports PlaceholderAPI placeholders and &#39;&amp;&#39; colors.</span>
 <span class="tok-com"># Default: %player_name%</span>
@@ -80,7 +80,7 @@
 </code></pre><button class="copy-btn">copy</button></div>
 
 <h3>nametag-format</h3>
-<p>The global format applied to every player who doesn't have a personal specified format. More information is covered on the <a href="formatting.html">Nametag Formats</a> page.</p>
+<p>The global format applied to every player who doesn't have a personal specified format. More information is covered on the <a href="../formatting/">Nametag Formats</a> page.</p>
 
 <h3>nametag-dismount-mode</h3>
 <p>The nametag is attached to each player using an invisible passenger entity so it stays fixed above their head. Some teleport commands that move a player between worlds/dimensions can fail while that passenger is still attached. This setting controls the feature that temporarily detaches and reattaches the nametag to solve this issue.</p>
@@ -100,7 +100,7 @@
 <li>No world-management plugin? Use <code>NONE</code>.</li>
 <li>Using Multiverse-Core? Use <code>NONE</code> here, and set <code>passenger-mode</code> to <code>dismount_passengers</code> in Multiverse-Core's own config.</li>
 <li>Using a different world/teleport plugin? Use <code>MANUAL</code> and list its teleport commands in <code>dismount-commands</code>.</li>
-<li>Using Skript? Run <code>/nametags dismount &lt;player&gt;</code> from console before a cross-world teleport &mdash; see the <a href="commands.html#dismount">dismount command</a>.</li>
+<li>Using Skript? Run <code>/nametags dismount &lt;player&gt;</code> from console before a cross-world teleport &mdash; see the <a href="../commands/#dismount">dismount command</a>.</li>
 </ul>
 <div class="callout"><span class="callout-title">AUTO</span><p>It is recommended to not leave <code>nametag-dismount-mode</code> as <code>AUTO</code> because of minor visual bugs that can occur on commands that don't involve world changes.</p></div>
 
