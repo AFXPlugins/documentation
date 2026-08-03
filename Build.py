@@ -34,8 +34,8 @@ VERSION = "1.0.0"
 # preference (prefers-color-scheme) instead of forcing a fixed theme.
 THEMES = [
     ("browser", "Browser", "#0e1013", "#f6f8fb"),
-    ("dark", "Dark", "#0e1013", "#8b93f5"),
     ("light", "Light", "#f6f8fb", "#0bdb69"),
+    ("dark", "Dark", "#0e1013", "#8b93f5"),
 ]
 
 CHECK_SVG = '<svg class="theme-check" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2l3 3L11.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
