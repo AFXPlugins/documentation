@@ -7,11 +7,16 @@ os.makedirs(PAGES_DIR, exist_ok=True)
 
 
 def href_to(current_slug, target_slug):
-    """Relative href from the page being rendered (current_slug) to another page (target_slug).
-    index.html lives at the site root; every other page lives in pages/."""
+    """Relative href from one generated page to another."""
     if target_slug == "index":
-        return "index.html" if current_slug == "index" else "../index.html"
-    return f"pages/{target_slug}.html" if current_slug == "index" else f"{target_slug}.html"
+        if current_slug == "index":
+            return "./"
+        return "../../"
+
+    if current_slug == "index":
+        return f"pages/{target_slug}/"
+
+    return f"../{target_slug}/"
 
 
 def asset_path(current_slug, path):
@@ -143,7 +148,12 @@ def page(slug, title, eyebrow, description, content, prev=None, nxt=None):
 '''
     # fix active class targeting (we used generic "link" class + active, but CSS expects nav a + .active)
     html = html.replace('class="link active"', 'class="active"').replace('class="link"', '')
-    output_file = os.path.join(OUT, f"{slug}.html") if slug == "index" else os.path.join(PAGES_DIR, f"{slug}.html")
+    if slug == "index":
+      output_file = os.path.join(OUT, "index.html")
+    else:
+        page_dir = os.path.join(PAGES_DIR, slug)
+        os.makedirs(page_dir, exist_ok=True)
+        output_file = os.path.join(page_dir, "index.html")
 
     # Always overwrite existing files
     with open(output_file, "w", encoding="utf-8") as f:
@@ -206,12 +216,12 @@ index_content = f'''
 
 <h2>Explore the Docs</h2>
 <div class="grid grid-3">
-  <a class="card" href="pages/installation.html"><span class="card-icon">01</span><h3>Installation</h3><p>Install the plugin, dependencies, and verify everything is working.</p></a>
-  <a class="card" href="pages/configuration.html"><span class="card-icon">02</span><h3>Configuration</h3><p>Guide on customizing settings, messages, and player formats.</p></a>
-  <a class="card" href="pages/commands.html"><span class="card-icon">03</span><h3>Commands</h3><p>View all <code>/nametags</code> commands and how to use them.</p></a>
-  <a class="card" href="pages/permissions.html"><span class="card-icon">04</span><h3>Permissions</h3><p>Manage access to plugin commands and features.</p></a>
-  <a class="card" href="pages/formatting.html"><span class="card-icon">05</span><h3>Nametag Formats</h3><p>Learn how to format and customize nametags.</p>
-  <a class="card" href="pages/cross-play.html"><span class="card-icon">06</span><h3>Bedrock &amp; Cross-Play</h3><p>See how Java and Bedrock players are supported.</p></a>
+  <a class="card" href="pages/installation"><span class="card-icon">01</span><h3>Installation</h3><p>Install the plugin, dependencies, and verify everything is working.</p></a>
+  <a class="card" href="pages/configuration"><span class="card-icon">02</span><h3>Configuration</h3><p>Guide on customizing settings, messages, and player formats.</p></a>
+  <a class="card" href="pages/commands"><span class="card-icon">03</span><h3>Commands</h3><p>View all <code>/nametags</code> commands and how to use them.</p></a>
+  <a class="card" href="pages/permissions"><span class="card-icon">04</span><h3>Permissions</h3><p>Manage access to plugin commands and features.</p></a>
+  <a class="card" href="pages/formatting"><span class="card-icon">05</span><h3>Nametag Formats</h3><p>Learn how to format and customize nametags.</p>
+  <a class="card" href="pages/cross-play"><span class="card-icon">06</span><h3>Bedrock &amp; Cross-Play</h3><p>See how Java and Bedrock players are supported.</p></a>
 </div>
 '''
 page("index", "Overview", "Documentation",
