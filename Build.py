@@ -2,19 +2,21 @@
 import os, re
 
 OUT = os.path.dirname(os.path.abspath(__file__))
-PAGES_DIR = os.path.join(OUT, "pages")
-os.makedirs(PAGES_DIR, exist_ok=True)
 
 
 def href_to(current_slug, target_slug):
-    """Relative href from one generated page to another."""
+    """Relative href from one generated page to another.
+
+    Every page (including sub-pages) now lives one level deep at
+    /<slug>/index.html, so this is a flat, single-level structure.
+    """
     if target_slug == "index":
         if current_slug == "index":
             return "./"
-        return "../../"
+        return "../"
 
     if current_slug == "index":
-        return f"pages/{target_slug}/"
+        return f"{target_slug}/"
 
     return f"../{target_slug}/"
 
@@ -151,7 +153,7 @@ def page(slug, title, eyebrow, description, content, prev=None, nxt=None):
     if slug == "index":
       output_file = os.path.join(OUT, "index.html")
     else:
-        page_dir = os.path.join(PAGES_DIR, slug)
+        page_dir = os.path.join(OUT, slug)
         os.makedirs(page_dir, exist_ok=True)
         output_file = os.path.join(page_dir, "index.html")
 
@@ -216,12 +218,12 @@ index_content = f'''
 
 <h2>Explore the Docs</h2>
 <div class="grid grid-3">
-  <a class="card" href="pages/installation"><span class="card-icon">01</span><h3>Installation</h3><p>Install the plugin, dependencies, and verify everything is working.</p></a>
-  <a class="card" href="pages/configuration"><span class="card-icon">02</span><h3>Configuration</h3><p>Guide on customizing settings, messages, and player formats.</p></a>
-  <a class="card" href="pages/commands"><span class="card-icon">03</span><h3>Commands</h3><p>View all <code>/nametags</code> commands and how to use them.</p></a>
-  <a class="card" href="pages/permissions"><span class="card-icon">04</span><h3>Permissions</h3><p>Manage access to plugin commands and features.</p></a>
-  <a class="card" href="pages/formatting"><span class="card-icon">05</span><h3>Nametag Formats</h3><p>Learn how to format and customize nametags.</p>
-  <a class="card" href="pages/cross-play"><span class="card-icon">06</span><h3>Bedrock &amp; Cross-Play</h3><p>See how Java and Bedrock players are supported.</p></a>
+  <a class="card" href="installation"><span class="card-icon">01</span><h3>Installation</h3><p>Install the plugin, dependencies, and verify everything is working.</p></a>
+  <a class="card" href="configuration"><span class="card-icon">02</span><h3>Configuration</h3><p>Guide on customizing settings, messages, and player formats.</p></a>
+  <a class="card" href="commands"><span class="card-icon">03</span><h3>Commands</h3><p>View all <code>/nametags</code> commands and how to use them.</p></a>
+  <a class="card" href="permissions"><span class="card-icon">04</span><h3>Permissions</h3><p>Manage access to plugin commands and features.</p></a>
+  <a class="card" href="formatting"><span class="card-icon">05</span><h3>Nametag Formats</h3><p>Learn how to format and customize nametags.</p>
+  <a class="card" href="cross-play"><span class="card-icon">06</span><h3>Bedrock &amp; Cross-Play</h3><p>See how Java and Bedrock players are supported.</p></a>
 </div>
 '''
 page("index", "Overview", "Documentation",

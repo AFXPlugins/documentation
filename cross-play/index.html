@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Permissions · CustomPlayerNametags Docs</title>
-<meta name="description" content="The customplayernametags.admin permission node, and a known permission-checking quirk in v1.0.0.">
+<title>Bedrock & Cross-Play · CustomPlayerNametags Docs</title>
+<meta name="description" content="How CustomPlayerNametags detects Bedrock/Geyser players via Floodgate and keeps nametag positioning correct on both clients.">
 <script>(function(){try{var t=localStorage.getItem('cpn-theme');if(t&&t!=='browser'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
   <button class="menu-btn" aria-label="Toggle navigation">
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
   </button>
-  <a class="brand" href="../../"><img class="brand-mark" src="../assets/img/logo.png" alt="CustomPlayerNametags logo">CustomPlayerNametags</a>
+  <a class="brand" href="../"><img class="brand-mark" src="../assets/img/logo.png" alt="CustomPlayerNametags logo">CustomPlayerNametags</a>
   <span class="version-badge">v1.0.0</span>
   <div class="topbar-spacer"></div>
   <div class="topbar-links">
@@ -36,38 +36,38 @@
 <div class="shell">
   <aside class="sidebar">
     <div class="sidebar-group"><div class="sidebar-label">Getting Started</div><nav>
-<a href="../../" ><span class="dot"></span>Overview</a>
+<a href="../" ><span class="dot"></span>Overview</a>
 <a href="../installation/" ><span class="dot"></span>Installation</a>
 </nav></div>
 <div class="sidebar-group"><div class="sidebar-label">Reference</div><nav>
 <a href="../configuration/" ><span class="dot"></span>Configuration</a>
 <a href="../commands/" ><span class="dot"></span>Commands</a>
-<a href="../permissions/" class="active"><span class="dot"></span>Permissions</a>
+<a href="../permissions/" ><span class="dot"></span>Permissions</a>
 </nav></div>
 <div class="sidebar-group"><div class="sidebar-label">Guides</div><nav>
 <a href="../formatting/" ><span class="dot"></span>Nametag Formats</a>
-<a href="../cross-play/" ><span class="dot"></span>Bedrock & Cross-Play</a>
+<a href="../cross-play/" class="active"><span class="dot"></span>Bedrock & Cross-Play</a>
 <a href="../troubleshooting/" ><span class="dot"></span>Troubleshooting</a>
 </nav></div>
   </aside>
   <main>
     <div class="content">
-      <span class="eyebrow">Reference</span>
+      <span class="eyebrow">Guide</span>
       
-<h1>Permissions</h1>
-<p class="lede">CustomPlayerNametags uses a single permission for all commands.</p>
+<h1>Bedrock &amp; Cross-Play</h1>
+<p class="lede">CustomPlayerNametags works for both Java Edition players, and Bedrock players connecting through Geyser.</p>
 
-<div class="table-wrap">
-<table>
-<thead><tr><th>Node</th><th>Default</th><th>Grants</th></tr></thead>
-<tbody>
-<tr><td><code>customplayernametags.admin</code></td><td><span class="tag op">op</span></td><td>Access to all <code>/nametags</code> subcommands.</td></tr>
-</tbody>
-</table>
-</div>
+<h2 class="no-rule">How Bedrock players are detected</h2>
+<p>If a plugin named <code>floodgate</code> is installed and enabled, CustomPlayerNametags asks its API whether each connected player is a Floodgate (Bedrock) player. If Floodgate isn't installed, every player is simply treated as Java.</p>
+
+<h2>Why Bedrock needs a different offset</h2>
+<p>The nametag is a display entity mounted above the player as a passenger, positioned at a fixed height offset. Geyser's client-side handling of passenger/display-entity positioning doesn't line up the same with vanilla Java rendering, so the plugin applies a small additional correction specifically for viewers detected as Bedrock, so the tag sits at the same visual height it would on Java.</p>
+
+<h2>Dismount windows</h2>
+<p>The brief window where a tag is dismounted and remounted around a teleport (see <a href="../configuration/">nametag-dismount-mode</a>) also gets its own small Bedrock-only height correction, so the remount doesn't produce a visible flicker for Bedrock viewers.</p>
 
 
-      <div class="prev-next"><a class="pn-link pn-prev" href="../commands/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Commands</div></a><a class="pn-link pn-next" href="../formatting/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Nametag Formats</div></a></div>
+      <div class="prev-next"><a class="pn-link pn-prev" href="../formatting/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Nametag Formats</div></a><a class="pn-link pn-next" href="../troubleshooting/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Troubleshooting</div></a></div>
       <footer class="page-footer">
         <span>CustomPlayerNametags v1.0.0 &middot; by AFXPlugins</span>
         <span><a href="https://github.com/AFXPlugins/CustomPlayerNametags" target="_blank" rel="noopener">Source on GitHub</a></span>
