@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Overview · CustomPlayerNametags Docs</title>
-<meta name="description" content="Documentation for CustomPlayerNametags, a Paper plugin for fully customizable player nametags.">
-<script>(function(){try{var t=localStorage.getItem('cpn-theme');if(t&&t!=='browser'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<meta name="description" content="Documentation for CustomPlayerNametags.">
+<script>(function(){try{var t=localStorage.getItem('customplayernametags-theme');if(t&&t!=='browser'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -55,7 +55,7 @@
       <span class="eyebrow">Documentation</span>
       
 <h1>CustomPlayerNametags</h1>
-<p class="lede">A Paper plugin that lets you fully customize player nametags. Includes global formats, per-player formats, PlaceholderAPI support, and Bedrock compatibility.</p>
+<p class="lede">A Paper plugin that lets you fully customize player nametags. Includes both global and individual nametag formats, PlaceholderAPI support, and Bedrock compatibility.</p>
 <div class="hero-buttons">
   <a class="btn btn-primary" href="https://modrinth.com/plugin/customplayernametags/versions" target="_blank" rel="noopener">Download</a>
   <a class="btn btn-ghost" href="https://github.com/AFXPlugins/CustomPlayerNametags" target="_blank" rel="noopener">View source</a>
@@ -64,7 +64,7 @@
 
 <div class="previewer" data-previewer>
   <div class="preview-image-wrap">
-    <img class="preview-image" src="https://cdn.modrinth.com/data/cached_images/559370701fd340038daa3fef45b8339a295bf717.png" alt="Preview of custom player nametags in game" loading="lazy">
+    <img class="preview-image" src="https://cdn.modrinth.com/data/cached_images/4314f862fdfff9a0d958a8ce345277d51b429140.png" alt="Preview of custom player nametags in game" loading="lazy">
   </div>
 </div>
 
@@ -72,9 +72,9 @@
 <h2 class="no-rule">What it does</h2>
 <div class="grid grid-2">
   <div class="card"><h3>Fully custom nametags</h3><p>Replace the vanilla player nametag display entirely &mdash; including the player's username &mdash; with a custom format using PlaceholderAPI placeholders.</p></div>
-  <div class="card"><h3>Global + per-player formats</h3><p>Set one global <code>nametag-format</code> as a default format for the whole server. Additionally set custom formats for individual players.</p></div>
+  <div class="card"><h3>Global + individual player formats</h3><p>Set one global <code>nametag-format</code> as a default format for the whole server. Additionally, set custom formats for individual players.</p></div>
   <div class="card"><h3>Java &amp; Bedrock compatible</h3><p>Detects Geyser/Floodgate players automatically and applies a separate vertical offset so tags line up correctly on both clients.</p></div>
-  <div class="card"><h3>Teleport-safe</h3><p>The tag is attached as an invisible passenger entity. A configurable dismount system prevents it from blocking cross-world teleports.</p></div>
+  <div class="card"><h3>CustomAdvancementMessages Integration</h3><p>Use <code>%customplayernametags_format%</code> placeholder in advancement player name format to sync formats between plugins.</p></div>
 </div>
 
 <h2>Requirements</h2>

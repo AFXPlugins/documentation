@@ -189,7 +189,7 @@ print("template ready")
 # =========================================================================
 index_content = f'''
 <h1>CustomPlayerNametags</h1>
-<p class="lede">A Paper plugin that lets you fully customize player nametags. Includes global formats, per-player formats, PlaceholderAPI support, and Bedrock compatibility.</p>
+<p class="lede">A Paper plugin that lets you fully customize player nametags. Includes global formats, individual player formats, PlaceholderAPI support, and Bedrock compatibility.</p>
 <div class="hero-buttons">
   <a class="btn btn-primary" href="{MODRINTH_URL}/versions" target="_blank" rel="noopener">Download</a>
   <a class="btn btn-ghost" href="{REPO_URL}" target="_blank" rel="noopener">View source</a>
@@ -200,7 +200,7 @@ index_content = f'''
 <h2 class="no-rule">What it does</h2>
 <div class="grid grid-2">
   <div class="card"><h3>Fully custom nametags</h3><p>Replace the vanilla player nametag display entirely &mdash; including the player's username &mdash; with a custom format using PlaceholderAPI placeholders.</p></div>
-  <div class="card"><h3>Global + per-player formats</h3><p>Set one global <code>nametag-format</code> as a default format for the whole server. Additionally set custom formats for individual players.</p></div>
+  <div class="card"><h3>Global + individual player formats</h3><p>Set one global <code>nametag-format</code> as a default format for the whole server. Additionally set custom formats for individual players.</p></div>
   <div class="card"><h3>Java &amp; Bedrock compatible</h3><p>Detects Geyser/Floodgate players automatically and applies a separate vertical offset so tags line up correctly on both clients.</p></div>
   <div class="card"><h3>Teleport-safe</h3><p>The tag is attached as an invisible passenger entity. A configurable dismount system prevents it from blocking cross-world teleports.</p></div>
 </div>
@@ -227,7 +227,7 @@ index_content = f'''
 </div>
 '''
 page("index", "Overview", "Documentation",
-     "Documentation for CustomPlayerNametags, a Paper plugin for fully customizable player nametags.",
+     "Documentation for CustomPlayerNametags.",
      index_content, nxt=("installation", "Installation"))
 
 
@@ -276,7 +276,7 @@ installation_content = f'''
 <p>Full breakdown of each file is on the <a href="../configuration/">Configuration</a> page.</p>
 '''
 page("installation", "Installation", "Getting started",
-     "How to install CustomPlayerNametags and its dependencies on a Paper server, or build it from source.",
+     "How to install CustomPlayerNametags and its dependencies.",
      installation_content, prev=("index", "Overview"), nxt=("configuration", "Configuration"))
 
 
@@ -375,7 +375,7 @@ configuration_content = f'''
   ec561538-f3fd-461d-aff5-086b6a97e6f8: '%luckperms_prefix%%player_name%' ''')}
 '''
 page("configuration", "Configuration", "Reference",
-     "Every key in config.yml, messages.yml, and player-formats.yml for CustomPlayerNametags.",
+     "Guide on configuring CustomPlayerNametags..",
      configuration_content, prev=("installation", "Installation"), nxt=("commands", "Commands"))
 
 
@@ -448,7 +448,7 @@ commands_content = f'''
 
 '''
 page("commands", "Commands", "Reference",
-     "The full /nametags command tree for CustomPlayerNametags: reload, update, format view/set/reset, and dismount.",
+     "All CustomPlayerNametags commands.",
      commands_content, prev=("configuration", "Configuration"), nxt=("permissions", "Permissions"))
 
 
@@ -470,7 +470,7 @@ permissions_content = f'''
 
 '''
 page("permissions", "Permissions", "Reference",
-     "The customplayernametags.admin permission node, and a known permission-checking quirk in v1.0.0.",
+     "The customplayernametags.admin permission.",
      permissions_content, prev=("commands", "Commands"), nxt=("formatting", "Nametag Formats"))
 
 
@@ -516,7 +516,7 @@ formatting_content = f'''
 {code("text", "%player_name%          the player's username\n%luckperms_prefix%      the player's LuckPerms prefix\n%essentials_nickname%   the player's Essentials nickname")}
 <p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for the full syntax and how to properly use them. Without PlaceholderAPI installed, placeholders are left as literal text rather than being resolved.</p>
 
-<h2>Global vs. per-player</h2>
+<h2>Global vs. individual formats</h2>
 <p>Every player's format is loaded in this order:</p>
 <ol>
 <li>Their personal nametag format, if one has been set with <code>/nametags format set player &lt;player&gt; &lt;format&gt;</code>.</li>
@@ -529,7 +529,7 @@ formatting_content = f'''
 <p>Nametags automatically refresh once per second for every online player, so placeholders that change over time stay up to date without needing a manual reload.</p>
 '''
 page("formatting", "Nametag Formats", "Guide",
-     "How to write nametag-format strings for CustomPlayerNametags: color codes, PlaceholderAPI placeholders, and per-player overrides.",
+     "How to format player nametags in CustomPlayerNametags.",
      formatting_content, prev=("permissions", "Permissions"), nxt=("cross-play", "Bedrock & Cross-Play"))
 
 
@@ -551,7 +551,7 @@ crossplay_content = f'''
 
 '''
 page("cross-play", "Bedrock & Cross-Play", "Guide",
-     "How CustomPlayerNametags detects Bedrock/Geyser players via Floodgate and keeps nametag positioning correct on both clients.",
+     "How CustomPlayerNametags detects Bedrock/Geyser players.",
      crossplay_content, prev=("formatting", "Nametag Formats"), nxt=("troubleshooting", "Troubleshooting"))
 
 
@@ -584,7 +584,7 @@ troubleshooting_content = f'''
 
 '''
 page("troubleshooting", "Troubleshooting", "Guide",
-     "Fixes for common CustomPlayerNametags problems: enable failures, unresolved placeholders, permission issues, and teleport interactions.",
+     "Fixes for common CustomPlayerNametags problems.",
      troubleshooting_content, prev=("cross-play", "Bedrock & Cross-Play"))
 
 print("All pages generated.")

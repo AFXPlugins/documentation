@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nametag Formats · CustomPlayerNametags Docs</title>
-<meta name="description" content="How to write nametag-format strings for CustomPlayerNametags: color codes, PlaceholderAPI placeholders, and per-player overrides.">
+<meta name="description" content="How to format player nametags in CustomPlayerNametags.">
 <script>(function(){try{var t=localStorage.getItem('cpn-theme');if(t&&t!=='browser'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,7 +90,7 @@
 %essentials_nickname%   the player's Essentials nickname</code></pre><button class="copy-btn">copy</button></div>
 <p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for the full syntax and how to properly use them. Without PlaceholderAPI installed, placeholders are left as literal text rather than being resolved.</p>
 
-<h2>Global vs. per-player</h2>
+<h2>Global vs. individual formats</h2>
 <p>Every player's format is loaded in this order:</p>
 <ol>
 <li>Their personal nametag format, if one has been set with <code>/nametags format set player &lt;player&gt; &lt;format&gt;</code>.</li>
