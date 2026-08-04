@@ -683,63 +683,40 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 
 /* responsive */
 @media (max-width: 900px) {
+  html, body {
+    overflow-x: hidden;
+  }
+
   .topbar {
     height: var(--topbar-h);
     padding: 0 0.75em;
     gap: 0;
-    overflow: hidden; /* Prevents horizontal scroll leaks */
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .topbar-inner {
     padding: 0;
+    width: 100%;
     max-width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Spreads brand to left, controls to right */
+    justify-content: space-between;
     gap: 0.5em;
+    box-sizing: border-box;
   }
 
-  /* Compact Brand Section */
-  .topbar .brand {
-    gap: 0.5em;
-    min-width: 0; /* Allows text truncation if screen is very narrow */
-    flex: 1 1 auto;
-  }
-
-  .brand-mark {
-    width: 42px;
-    height: 42px;
-    border-radius: 6px;
-    flex-shrink: 0;
-  }
-
-  .brand-text-top {
-    font-size: 0.58rem;
-  }
-
-  .brand-text-bottom {
-    font-size: 0.95rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Prevents long text from breaking layout */
-  }
-
-  /* Optional: Hide version badge on mobile if space is tight */
-  .topbar .version-badge {
-    display: none; 
-  }
-
-  /* Right-side Actions (Toggle + Menu Button) */
   .topbar-links {
-    margin-left: auto;
+    order: 1;
+    margin-left: 0;
     display: flex;
     align-items: center;
     gap: 0.5em;
-    flex-shrink: 0; /* Ensures buttons never shrink or get squished */
+    flex-shrink: 0;
   }
 
   .topbar-links a {
-    display: none; /* Hides desktop navigation text links */
+    display: none;
   }
 
   .theme-toggle {
@@ -747,11 +724,51 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
     flex-shrink: 0;
   }
 
+  .topbar .brand {
+    order: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-text-top {
+    font-size: 0.55rem;
+    white-space: nowrap;
+  }
+
+  .brand-text-bottom {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .topbar .version-badge {
+    display: none;
+  }
+
   .menu-btn {
+    order: 3;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    margin-left: auto;
   }
 
   main {
