@@ -254,44 +254,67 @@ pre code{
 /* ---------- layout shell ---------- */
 .topbar{
   position: sticky; top: 0; z-index: 40;
-  height: var(--topbar-h);
-  display: flex; align-items: center; gap: 0.8em;
-  padding: 0 1.2em;
+  height: 76px;
+  display: flex; align-items: center; gap: 1em;
+  padding: 0 1.5em;
   background: var(--topbar-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-soft);
 }
+
 .topbar .brand{
-  display:flex; align-items:center; gap:0.50em;
+  display:flex; align-items:center; gap:0.65em;
   color: var(--text);
 }
-.topbar .brand:hover{ text-decoration: none; color: var(--text); }
+
+.topbar .brand:hover{
+  text-decoration: none;
+  color: var(--text);
+}
+
 .brand-mark{
-  width: 42px;
-  height: 42px;
+  width: 64px;
+  height: 64px;
   flex: none;
-  border-radius: 8px;
+  border-radius: 10px;
   object-fit: contain;
   image-rendering: pixelated;
-  box-shadow: 0 2px 6px -2px rgba(0,0,0,0.35);
+  box-shadow: 0 3px 8px -2px rgba(0,0,0,0.35);
 }
+
 .brand-text{
-  display:flex; flex-direction:column; line-height:1.15; gap:0.2em;
+  display:flex;
+  flex-direction:column;
+  line-height:1.15;
+  gap:0.25em;
 }
+
 .brand-text-top{
-  font-family: "JetBrains Mono", monospace; font-weight: 600;
-  font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.16em;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
   color: var(--lime);
 }
+
 .brand-text-bottom{
-  font-family: "Fraunces", serif; font-weight: 600;
-  font-size: 1.05rem; letter-spacing: -0.01em; color: var(--text);
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
 }
+
 .topbar .version-badge{
-  font-family: "JetBrains Mono", monospace; font-size: 0.68rem;
-  color: var(--bg); background: var(--lime);
-  padding: 0.15em 0.5em; border-radius: 4px; letter-spacing: 0.02em;
-  margin-left: -0.60em;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--bg);
+  background: var(--lime);
+  padding: 0.18em 0.55em;
+  border-radius: 5px;
+  letter-spacing: 0.02em;
+  margin-left: -0.70em;
 }
 .topbar-spacer{ flex: 1; }
 .topbar-links{ display:flex; align-items:center; gap: 0.9em; }
@@ -522,6 +545,10 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 
 /* responsive */
 @media (max-width: 900px){
+  :root{
+    --topbar-h: 68px;
+  }
+
   .grid-2, .grid-3{
     grid-template-columns: 1fr;
   }
@@ -536,6 +563,7 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
     background: var(--bg-alt);
     transform: translateX(-100%);
     transition: transform .2s ease;
+    height: calc(100vh - var(--topbar-h));
   }
 
   .sidebar.open{
@@ -546,6 +574,32 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .topbar{
+    height: var(--topbar-h);
+    padding: 0 1em;
+    gap: 0.7em;
+  }
+
+  .brand-mark{
+    width: 54px;
+    height: 54px;
+    border-radius: 8px;
+  }
+
+  .brand-text-top{
+    font-size: 0.62rem;
+  }
+
+  .brand-text-bottom{
+    font-size: 1rem;
+  }
+
+  .topbar .version-badge{
+    font-size: 0.65rem;
+    padding: 0.15em 0.45em;
+    margin-left: -0.25em;
   }
 
   .topbar-links a{
@@ -562,25 +616,5 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 
   main{
     padding-top: 2.2em;
-  }
-}
-
-@media (max-width: 560px){
-  .prev-next{
-    flex-direction: column;
-  }
-
-  .pn-next{
-    text-align: left;
-  }
-}
-
-@media (prefers-reduced-motion: reduce){
-  html{
-    scroll-behavior: auto;
-  }
-
-  body{
-    transition: none;
   }
 }
