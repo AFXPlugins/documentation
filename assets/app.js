@@ -36,62 +36,61 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeSwitcher();
 });
 
-// ---- Theme switcher ----
-// 'browser' is the default theme: it has no data-theme attribute, so the
-// stylesheet's prefers-color-scheme media query decides light vs dark.
-const DEFAULT_THEME = 'browser';
+// ---- Theme toggle (light/dark slider) ----
+// Storage key MUST match the inline no-flash script in every page's <head>.
+const THEME_STORAGE_KEY = 'customplayernametags-theme';
 
-function applyTheme(theme, persist) {
-  if (theme === DEFAULT_THEME) {
-    document.documentElement.removeAttribute('data-theme');
-  } else {
-    document.documentElement.setAttribute('data-theme', theme);
+function getStoredTheme() {
+  try {
+    const t = localStorage.getItem(THEME_STORAGE_KEY);
+    return (t === 'light' || t === 'dark') ? t : null;
+  } catch (err) {
+    return null; // storage unavailable
   }
-  if (persist) {
-    try { localStorage.setItem('cpn-theme', theme); } catch (err) { /* storage unavailable */ }
-  }
-  document.querySelectorAll('.theme-option').forEach(opt => {
-    opt.setAttribute('aria-checked', opt.getAttribute('data-theme-value') === theme ? 'true' : 'false');
-  });
+}
+
+function systemPrefersLight() {
+  return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches);
+}
+
+// The theme actually being rendered right now: an explicit stored choice,
+// or — on a first visit, before any choice has been made — the visitor's
+// OS/browser preference (handled purely by CSS, with no data-theme
+// attribute set, so there's nothing for JS to flash-fix).
+function effectiveTheme(stored) {
+  return stored || (systemPrefersLight() ? 'light' : 'dark');
+}
+
+function applyExplicitTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.documentElement.setAttribute('data-toggle-state', theme);
+  try { localStorage.setItem(THEME_STORAGE_KEY, theme); } catch (err) { /* storage unavailable */ }
 }
 
 function initThemeSwitcher() {
-  const wrap = document.querySelector('[data-theme-switcher]');
-  if (!wrap) return;
-  const btn = wrap.querySelector('.theme-btn');
-  const menu = wrap.querySelector('.theme-menu');
-  if (!btn || !menu) return;
+  const toggle = document.querySelector('[data-theme-toggle]');
+  if (!toggle) return;
 
-  let current = DEFAULT_THEME;
-  try { current = localStorage.getItem('cpn-theme') || DEFAULT_THEME; } catch (err) { /* storage unavailable */ }
-  applyTheme(current, false);
+  let stored = getStoredTheme();
 
-  const closeMenu = () => {
-    wrap.classList.remove('open');
-    btn.setAttribute('aria-expanded', 'false');
+  const syncUI = () => {
+    toggle.setAttribute('aria-checked', effectiveTheme(stored) === 'dark' ? 'true' : 'false');
   };
+  syncUI();
 
-  btn.addEventListener('click', () => {
-    const willOpen = !wrap.classList.contains('open');
-    wrap.classList.toggle('open', willOpen);
-    btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  toggle.addEventListener('click', () => {
+    const next = effectiveTheme(stored) === 'dark' ? 'light' : 'dark';
+    applyExplicitTheme(next);
+    stored = next;
+    syncUI();
   });
 
-  document.addEventListener('click', (e) => {
-    if (wrap.classList.contains('open') && !wrap.contains(e.target)) closeMenu();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && wrap.classList.contains('open')) {
-      closeMenu();
-      btn.focus();
-    }
-  });
-
-  menu.querySelectorAll('.theme-option').forEach(option => {
-    option.addEventListener('click', () => {
-      applyTheme(option.getAttribute('data-theme-value'), true);
-      closeMenu();
-    });
-  });
+  // Until the visitor makes an explicit choice, keep the slider's knob in
+  // sync if their OS/browser color-scheme preference changes mid-session.
+  if (window.matchMedia) {
+    const mq = window.matchMedia('(prefers-color-scheme: light)');
+    const onSystemChange = () => { if (!stored) syncUI(); };
+    if (mq.addEventListener) mq.addEventListener('change', onSystemChange);
+    else if (mq.addListener) mq.addListener(onSystemChange);
+  }
 }

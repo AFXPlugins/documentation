@@ -1,9 +1,11 @@
 /* =========================================================================
    CustomPlayerNametags docs — design system
-   Three themes: Browser (default — no data-theme attribute; follows the
-   visitor's OS/browser prefers-color-scheme automatically), Dark (neutral
-   graphite + indigo/cyan accents, forced via data-theme="dark"), and Light
-   (white/blue-grey, tuned for AA-level text contrast, data-theme="light").
+   Light/Dark slider toggle. Until a visitor picks a side, there's no
+   data-theme attribute and the page just follows their OS/browser
+   prefers-color-scheme automatically. Flipping the toggle sets
+   data-theme="dark" (neutral graphite + indigo/cyan accents) or
+   data-theme="light" (white/blue-grey, tuned for AA-level text contrast)
+   explicitly, and that choice is remembered from then on.
    Type: Fraunces (display) / Inter (body) / JetBrains Mono (code)
    ========================================================================= */
 
@@ -51,6 +53,12 @@
   --tag-op: var(--gold-soft);
   --tag-op-border: rgba(176,182,250,0.4);
   --tag-op-bg: rgba(176,182,250,0.08);
+
+  /* Tint behind doc-image-frame — a translucent light blue that reads as
+     "blue-ish glass" over either theme's page background rather than a
+     flat, theme-specific color, since it's alpha-blended rather than solid. */
+  --image-frame-bg: rgba(93,156,236,0.12);
+  --image-frame-border: rgba(93,156,236,0.30);
 }
 
 html[data-theme="light"]{
@@ -106,13 +114,13 @@ html[data-theme="light"]{
   --tag-op-bg: rgba(133,77,14,0.08);
 }
 
-/* Browser (default) theme: no data-theme attribute means the page uses the
-   dark variables above by default, but here we mirror the light theme's
-   variables when the OS/browser is set to light — so "Browser" auto-switches
-   the same way explicit Dark/Light do, without any JS involved. */
+/* Before an explicit choice is made: no data-theme attribute means the page
+   uses the dark variables above by default, but here we mirror the light
+   theme's variables when the OS/browser is set to light — so the very first
+   render already matches system preference, purely via CSS, with no JS
+   involved and nothing to flash. */
 @media (prefers-color-scheme: light){
-  html:not([data-theme]),
-  html[data-theme="browser"]{
+  html:not([data-theme]){
     --bg: #fcfdfc;
     --bg-alt: #f6f8f6;
     --surface: #ffffff;
@@ -197,11 +205,45 @@ h1,h2,h3,h4{
   line-height: 1.2;
   margin: 0 0 0.5em;
 }
-h1{ font-size: clamp(2rem, 4vw, 2.75rem); font-optical-sizing: auto; }
-h2{ font-size: 1.55rem; margin-top: 2.6em; padding-top: 0.2em; border-top: 1px solid var(--border-soft); }
-h2:first-of-type, .no-rule{ border-top: none; padding-top: 0; margin-top: 0; }
-h3{ font-size: 1.15rem; margin-top: 1.8em; color: var(--gold-soft); }
-h4{ font-size: 1rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+
+h1{
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-optical-sizing: auto;
+}
+
+h2{
+  font-size: 1.55rem;
+  margin-top: 2.6em;
+  padding-top: 0.2em;
+  border-top: 1px solid var(--border-soft);
+  scroll-margin-top: 90px;
+}
+
+h2:first-of-type, .no-rule{
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+h2.section-rule{
+  border-top: 1px solid var(--border-soft);
+  padding-top: 0.2em;
+  margin-top: 2.6em;
+}
+
+h3{
+  font-size: 1.15rem;
+  margin-top: 1.8em;
+  color: var(--gold-soft);
+  scroll-margin-top: 90px;
+}
+
+h4{
+  font-size: 1rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
 
 p{ margin: 0 0 1em; color: var(--text-dim); }
 strong{ color: var(--text); font-weight: 600; }
@@ -253,13 +295,25 @@ pre code{
 
 /* ---------- layout shell ---------- */
 .topbar{
-  position: sticky; top: 0; z-index: 40;
+  position: sticky;
+  top: 0;
+  z-index: 40;
   height: 76px;
-  display: flex; align-items: center; gap: 1em;
-  padding: 0 1.5em;
+  display:flex;
+  align-items:center;
   background: var(--topbar-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-soft);
+}
+
+.topbar-inner{
+  width:100%;
+  max-width:1320px;
+  margin:0 auto;
+  padding:0 2em;
+  display:flex;
+  align-items:center;
+  gap:1em;
 }
 
 .topbar .brand{
@@ -316,46 +370,96 @@ pre code{
   letter-spacing: 0.02em;
   margin-left: -0.70em;
 }
-.topbar-spacer{ flex: 1; }
+.topbar-links{
+  display:flex;
+  align-items:center;
+  gap:0.9em;
+  margin-left: 43em;
+}
 .topbar-links{ display:flex; align-items:center; gap: 0.9em; }
 .topbar-links a{ color: var(--text-dim); font-size: 0.88rem; }
 .topbar-links a:hover{ color: var(--lime-soft); text-decoration: none; }
 .icon-link{ display:flex; align-items:center; gap:0.35em; }
 
-/* ---------- theme switcher ---------- */
-.theme-switcher{ position: relative; }
-.theme-btn{
-  display:flex; align-items:center; justify-content:center; gap:0.4em;
-  background: transparent; border: 1px solid var(--border);
-  color: var(--text-dim); width: 38px; height: 38px; border-radius: 8px;
-  cursor: pointer; transition: color .15s, border-color .15s, background .15s;
+/* ---------- theme toggle ---------- */
+.theme-toggle{
+  flex: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
-.theme-btn:hover{ color: var(--text); border-color: var(--text-faint); background: var(--surface); }
-.theme-btn svg{ display:block; }
-.theme-menu{
-  position: absolute; top: calc(100% + 0.5em); right: 0; z-index: 50;
-  min-width: 168px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; box-shadow: var(--shadow); padding: 0.4em;
-  display: none; flex-direction: column; gap: 0.15em;
+
+.theme-toggle-track{
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 58px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  transition: background .2s ease, border-color .2s ease;
 }
-.theme-switcher.open .theme-menu{ display: flex; }
-.theme-option{
-  display:flex; align-items:center; gap:0.65em;
-  width:100%; background:none; border:none; text-align:left;
-  padding: 0.5em 0.6em; border-radius: 7px; cursor: pointer;
-  font-family: "Inter", sans-serif; font-size: 0.86rem; color: var(--text-dim);
+
+.theme-toggle:hover .theme-toggle-track{
+  border-color: color-mix(in srgb, var(--border) 60%, var(--text-faint));
 }
-.theme-option:hover{ background: var(--surface-2); color: var(--text); }
-.theme-option[aria-checked="true"]{ color: var(--text); background: var(--surface-2); }
-.theme-swatch{
-  flex: none; width: 16px; height: 16px; border-radius: 5px; overflow: hidden;
-  display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(0,0,0,0.25);
+
+.theme-toggle:focus-visible .theme-toggle-track{
+  outline: 2px solid var(--lime);
+  outline-offset: 3px;
 }
-.theme-swatch span{ display:block; }
-.theme-option .theme-name{ flex: 1; }
-.theme-option .theme-check{ flex: none; width: 14px; opacity: 0; color: var(--lime); }
-.theme-option[aria-checked="true"] .theme-check{ opacity: 1; }
+
+/* icons */
+.theme-toggle-icon{
+  position: absolute;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  color: var(--text-faint);
+  transition: color .2s ease;
+}
+
+.theme-toggle-icon-sun{
+  left: 8px;
+}
+
+.theme-toggle-icon-moon{
+  right: 8px;
+}
+
+.theme-toggle[aria-checked="false"] .theme-toggle-icon-sun{
+  color: var(--gold);
+}
+
+html[data-toggle-state="dark"] .theme-toggle-thumb{
+  transform: translate(28px, -50%);
+}
+
+/* thumb */
+.theme-toggle-thumb{
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.12);
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.25);
+  transition:
+    transform .22s cubic-bezier(.4,0,.2,1);
+}
+
+.theme-toggle[aria-checked="true"] .theme-toggle-thumb{
+  transform: translate(28px, -50%);
+}
 
 .menu-btn{
   display:none; background:none; border:1px solid var(--border);
@@ -434,6 +538,26 @@ td{ padding: 0.75em 0.9em; border-bottom: 1px solid var(--border-soft); color: v
 tr:last-child td{ border-bottom: none; }
 td code{ white-space: nowrap; }
 
+/* changelog */
+.changelog{ margin: 1.6em 0; }
+.changelog-entry{
+  padding: 1.3em 0 1.5em;
+  border-bottom: 1px solid var(--border-soft);
+}
+.changelog-entry:last-child{ border-bottom: none; padding-bottom: 0; }
+.changelog-entry:first-child{ padding-top: 0; }
+.changelog-heading{ display:flex; align-items:center; gap:0.7em; margin-bottom: 0.7em; }
+.changelog-version{
+  font-family:"JetBrains Mono", monospace; font-size: 0.78rem; font-weight: 600;
+  color: var(--lime-soft); background: var(--tag-opt-bg);
+  border: 1px solid var(--tag-opt-border); border-radius: 6px;
+  padding: 0.25em 0.65em; letter-spacing: 0.02em;
+}
+.changelog-entry ul{ margin: 0; padding-left: 1.2em; }
+.changelog-entry li{ margin-bottom: 0.5em; color: var(--text-dim); }
+.changelog-entry li:last-child{ margin-bottom: 0; }
+.changelog-entry li strong{ color: var(--text); }
+
 /* cards */
 .grid{ display:grid; gap: 1em; margin: 1.6em 0; }
 .grid-2{ grid-template-columns: repeat(2, 1fr); }
@@ -498,34 +622,48 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 .btn-ghost{ background: transparent; color: var(--text); }
 .btn-ghost:hover{ background: var(--surface); color: var(--text); border-color: var(--text-faint); }
 
-/* ---- nametag previewer (signature element) ---- */
-.previewer{
+/* ---- documentation images ----
+   Two classes, used together, e.g.:
+     <div class="doc-image-frame"><img class="doc-image" src="..." alt="..."></div>
+   .doc-image-frame is the tinted "glass" panel behind the picture.
+   .doc-image is the picture's own border/shadow, independent of the frame
+   — so a screenshot can have its own visible edge distinct from the frame
+   it's sitting in. Adding a new image anywhere in the docs is just
+   wrapping it in these two classes. */
+.doc-image-frame{
+  display: block;
+  box-sizing: border-box;
   width: 100%;
-  background: var(--surface);
-  border: 3px solid var(--border);
-  border-radius: 14px;
+  padding: 14px;
   margin: 1.6em 0 2.2em;
+  background: var(--image-frame-bg);
+  border: 1px solid var(--image-frame-border);
+  border-radius: 16px;
   box-shadow: var(--shadow);
-  overflow: hidden;
 }
-
-.preview-image-wrap{
-  padding: 12px;
-  background: var(--preview-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.preview-image{
+.doc-image{
   display: block;
   width: 100%;
   height: auto;
-  border: 4px solid rgba(255,255,255,.08);
+  border: 0px solid var(--border);
   border-radius: 10px;
   box-shadow:
     0 8px 24px rgba(0,0,0,.25),
-    0 0 0 1px rgba(255,255,255,.03) inset;
+    0 0 0 1px rgba(255,255,255,.05) inset;
+}
+.doc-image-caption{
+  margin-top: 0.75em;
+  padding: 0 0.25em;
+  color: var(--text-faint);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-style: italic;
+  text-align: center;
+}
+
+.doc-image-caption::before{
+  content: "↳ ";
+  color: var(--lime-soft);
 }
 /* footer */
 .page-footer{
@@ -582,6 +720,10 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
     gap: 0.7em;
   }
 
+  .topbar-inner{
+    padding: 0 1em;
+  }
+
   .brand-mark{
     width: 54px;
     height: 54px;
@@ -606,11 +748,7 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
     display: none;
   }
 
-  .topbar-spacer{
-    display: none;
-  }
-
-  .theme-switcher{
+  .theme-toggle{
     margin-left: 0.35rem;
   }
 

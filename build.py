@@ -28,28 +28,37 @@ REPO_URL = "https://github.com/AFXPlugins/CustomPlayerNametags"
 MODRINTH_URL = "https://modrinth.com/plugin/customplayernametags"
 VERSION = "1.0.0"
 
-# (slug, display name, swatch color A, swatch color B) — A/B just drive the
-# little two-tone preview square in the theme menu, not the live page.
-# "browser" is the default: it follows the visitor's OS/browser color-scheme
-# preference (prefers-color-scheme) instead of forcing a fixed theme.
-THEMES = [
-    ("browser", "Browser", "#0e1013", "#f6f8fb"),
-    ("light", "Light", "#f6f8fb", "#0bdb69"),
-    ("dark", "Dark", "#0e1013", "#8b93f5"),
-]
+# The theme is a simple two-state Light/Dark slider toggle. On a visitor's
+# very first visit (nothing saved yet) the page follows their OS/browser
+# color-scheme preference (prefers-color-scheme) automatically, with no
+# data-theme attribute set — that's what THEME_STORAGE_KEY absence means.
+# The instant the visitor flips the slider, that explicit choice is saved
+# under THEME_STORAGE_KEY and takes over from then on, on every page.
+THEME_STORAGE_KEY = "customplayernametags-theme"
 
-CHECK_SVG = '<svg class="theme-check" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2l3 3L11.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+THEME_SWITCHER = '''<button class="theme-toggle" type="button" role="switch" aria-label="Switch between light and dark mode" data-theme-toggle>
+    <span class="theme-toggle-track">
+      <svg class="theme-toggle-icon theme-toggle-icon-sun" width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 0.6v1.6M6.5 10.8v1.6M12.4 6.5h-1.6M2.2 6.5H0.6M10.6 2.4l-1.1 1.1M3.5 9.5l-1.1 1.1M10.6 10.6l-1.1-1.1M3.5 3.5L2.4 2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <svg class="theme-toggle-icon theme-toggle-icon-moon" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M11 7.6A5 5 0 114.4 1a4 4 0 006.6 6.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      <span class="theme-toggle-thumb"></span>
+    </span>
+  </button>'''
 
-THEME_SWITCHER = f'''<div class="theme-switcher" data-theme-switcher>
-    <button class="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Change color theme">
-      <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 1.5a7 7 0 100 14 1.6 1.6 0 001.13-2.73 1.2 1.2 0 01.85-2.05h1.36A3.66 3.66 0 0015.5 7.06 7.01 7.01 0 008.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="5.1" cy="6.6" r="0.9" fill="currentColor"/><circle cx="8.1" cy="4.4" r="0.9" fill="currentColor"/><circle cx="5.6" cy="10.2" r="0.9" fill="currentColor"/></svg>
-    </button>
-    <div class="theme-menu" role="menu">
-      {"".join(f'<button class="theme-option" type="button" role="menuitemradio" aria-checked="false" data-theme-value="{slug}"><span class="theme-swatch"><span style="background:{a}"></span><span style="background:{b}"></span></span><span class="theme-name">{name}</span>{CHECK_SVG}</button>' for slug, name, a, b in THEMES)}
-    </div>
-  </div>'''
+NO_FLASH_SCRIPT = f'''<script>
+(function(){{
+  try {{
+    var t = localStorage.getItem('{THEME_STORAGE_KEY}');
+    if (t === 'light' || t === 'dark') {{
+      document.documentElement.setAttribute('data-theme', t);
+    }}
 
-NO_FLASH_SCRIPT = '''<script>(function(){try{var t=localStorage.getItem('cpn-theme');if(t&&t!=='browser'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>'''
+    document.documentElement.setAttribute(
+      'data-toggle-state',
+      t === 'light' ? 'light' : 'dark'
+    );
+  }} catch(e) {{}}
+}})();
+</script>'''
 
 NAV = [
     ("index", "Overview", []),
@@ -58,8 +67,8 @@ NAV = [
     ("commands", "Commands", []),
     ("permissions", "Permissions", []),
     ("formatting", "Nametag Formats", []),
-    ("cross-play", "Bedrock & Cross-Play", []),
     ("troubleshooting", "Troubleshooting", []),
+    ("changelog", "Changelog", []),
 ]
 
 BRAND_SVG = '''<img class="brand-mark" src="assets/img/logo.png" alt="CustomPlayerNametags logo">'''
@@ -68,8 +77,9 @@ BRAND_SVG = '''<img class="brand-mark" src="assets/img/logo.png" alt="CustomPlay
 def nav_html(active_slug):
     groups = {
         "Getting Started": ["index", "installation"],
-        "Reference": ["configuration", "commands", "permissions"],
-        "Guides": ["formatting", "cross-play", "troubleshooting"],
+        "Guides": ["formatting", "configuration"],
+        "Reference": ["commands", "permissions"],
+        "Resources": ["troubleshooting", "changelog"],
     }
     out = []
     for label, slugs in groups.items():
@@ -116,16 +126,29 @@ def page(slug, title, eyebrow, description, content, prev=None, nxt=None):
 </head>
 <body>
 <header class="topbar">
-  <button class="menu-btn" aria-label="Toggle navigation">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-  </button>
-  <a class="brand" href="{href_to(slug, 'index')}">{BRAND_SVG.replace('assets/img/logo.png', asset_path(slug, 'assets/img/logo.png'))}CustomPlayerNametags</a>
-  <span class="version-badge">v{VERSION}</span>
-  <div class="topbar-spacer"></div>
-  <div class="topbar-links">
-    <a class="icon-link" href="{MODRINTH_URL}" target="_blank" rel="noopener"><span class="link-text">Modrinth</span></a>
-    <a class="icon-link" href="{REPO_URL}" target="_blank" rel="noopener"><span class="link-text">GitHub</span></a>
-    {THEME_SWITCHER}
+  <div class="topbar-inner">
+    <button class="menu-btn" aria-label="Toggle navigation">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+
+    <a class="brand" href="{href_to(slug, 'index')}">
+      {BRAND_SVG.replace('assets/img/logo.png', asset_path(slug, 'assets/img/logo.png'))}
+      CustomPlayerNametags
+    </a>
+
+    <span class="version-badge">v{VERSION}</span>
+
+    <div class="topbar-links">
+      <a class="icon-link" href="{MODRINTH_URL}" target="_blank" rel="noopener">
+        <span class="link-text">Modrinth</span>
+      </a>
+
+      <a class="icon-link" href="{REPO_URL}" target="_blank" rel="noopener">
+        <span class="link-text">GitHub</span>
+      </a>
+
+      {THEME_SWITCHER}
+    </div>
   </div>
 </header>
 <div class="shell">
@@ -173,14 +196,18 @@ def code(lang, text, copy=True):
     btn = '<button class="copy-btn">copy</button>' if copy else ''
     return f'<div class="code-block"><pre><code class="lang-{lang}">{text}</code></pre>{btn}</div>'
 
+def doc_image(src, alt, caption=None):
+    caption_html = ""
+    if caption:
+        caption_html = f'<div class="doc-image-caption">{caption}</div>'
 
-PREVIEWER = '''
-<div class="previewer" data-previewer>
-  <div class="preview-image-wrap">
-    <img class="preview-image" src="https://cdn.modrinth.com/data/cached_images/559370701fd340038daa3fef45b8339a295bf717.png" alt="Preview of custom player nametags in game" loading="lazy">
-  </div>
+    return f'''
+<div class="doc-image-frame">
+  <img class="doc-image" src="{src}" alt="{alt}" loading="lazy">
+  {caption_html}
 </div>
 '''
+
 
 print("template ready")
 
@@ -195,14 +222,15 @@ index_content = f'''
   <a class="btn btn-ghost" href="{REPO_URL}" target="_blank" rel="noopener">View source</a>
 </div>
 
-{PREVIEWER}
+{doc_image(
+    "https://cdn.modrinth.com/data/cached_images/4314f862fdfff9a0d958a8ce345277d51b429140.png",
+    "Preview of a custom player nametag."
+)}
 
 <h2 class="no-rule">What it does</h2>
 <div class="grid grid-2">
-  <div class="card"><h3>Fully custom nametags</h3><p>Replace the vanilla player nametag display entirely &mdash; including the player's username &mdash; with a custom format using PlaceholderAPI placeholders.</p></div>
+  <div class="card"><h3>Fully custom nametags</h3><p>Replace the entire vanilla player nametag display entirely with a custom format using PlaceholderAPI placeholders.</p></div>
   <div class="card"><h3>Global + individual player formats</h3><p>Set one global <code>nametag-format</code> as a default format for the whole server. Additionally set custom formats for individual players.</p></div>
-  <div class="card"><h3>Java &amp; Bedrock compatible</h3><p>Detects Geyser/Floodgate players automatically and applies a separate vertical offset so tags line up correctly on both clients.</p></div>
-  <div class="card"><h3>Teleport-safe</h3><p>The tag is attached as an invisible passenger entity. A configurable dismount system prevents it from blocking cross-world teleports.</p></div>
 </div>
 
 <h2>Requirements</h2>
@@ -219,11 +247,11 @@ index_content = f'''
 <h2>Explore the Docs</h2>
 <div class="grid grid-3">
   <a class="card" href="installation"><span class="card-icon">01</span><h3>Installation</h3><p>Install the plugin, dependencies, and verify everything is working.</p></a>
-  <a class="card" href="configuration"><span class="card-icon">02</span><h3>Configuration</h3><p>Guide on customizing settings, messages, and player formats.</p></a>
-  <a class="card" href="commands"><span class="card-icon">03</span><h3>Commands</h3><p>View all <code>/nametags</code> commands and how to use them.</p></a>
-  <a class="card" href="permissions"><span class="card-icon">04</span><h3>Permissions</h3><p>Manage access to plugin commands and features.</p></a>
-  <a class="card" href="formatting"><span class="card-icon">05</span><h3>Nametag Formats</h3><p>Learn how to format and customize nametags.</p>
-  <a class="card" href="cross-play"><span class="card-icon">06</span><h3>Bedrock &amp; Cross-Play</h3><p>See how Java and Bedrock players are supported.</p></a>
+  <a class="card" href="formatting"><span class="card-icon">02</span><h3>Nametag Formats</h3><p>Learn how to format and customize nametags.</p></a>
+  <a class="card" href="configuration"><span class="card-icon">03</span><h3>Configuration</h3><p>Guide on customizing settings, messages, and player formats.</p></a>
+  <a class="card" href="commands"><span class="card-icon">04</span><h3>Commands</h3><p>View all <code>/nametags</code> commands and how to use them.</p></a>
+  <a class="card" href="permissions"><span class="card-icon">05</span><h3>Permissions</h3><p>Manage access to plugin commands and features.</p></a>
+  <a class="card" href="troubleshooting"><span class="card-icon">06</span><h3>Troubleshooting</h3><p>Troubleshooting tips for common plugin issues.</p></a>
 </div>
 '''
 page("index", "Overview", "Documentation",
@@ -277,7 +305,7 @@ installation_content = f'''
 '''
 page("installation", "Installation", "Getting started",
      "How to install CustomPlayerNametags and its dependencies.",
-     installation_content, prev=("index", "Overview"), nxt=("configuration", "Configuration"))
+     installation_content, prev=("index", "Overview"), nxt=("formatting", "Nametag Formats"))
 
 
 # =========================================================================
@@ -285,6 +313,7 @@ page("installation", "Installation", "Getting started",
 # =========================================================================
 config_yaml_code = '''<span class="tok-com"># Global format used for all player nametags.</span>
 <span class="tok-com"># Supports PlaceholderAPI placeholders and &#39;&amp;&#39; colors.</span>
+<span class="tok-com"># Use \\n in the format to start a new line.</span>
 <span class="tok-com"># Default: %player_name%</span>
 <span class="tok-key">nametag-format:</span> <span class="tok-str">"%player_name%"</span>
 
@@ -312,7 +341,7 @@ configuration_content = f'''
 <div class="code-block"><pre><code>{config_yaml_code}</code></pre><button class="copy-btn">copy</button></div>
 
 <h3>nametag-format</h3>
-<p>The global format applied to every player who doesn't have a personal specified format. More information is covered on the <a href="../formatting/">Nametag Formats</a> page.</p>
+<p>The global format applied to every player who doesn't have a custom individual format. More information is covered on the <a href="../formatting/">Nametag Formats</a> page.</p>
 
 <h3>nametag-dismount-mode</h3>
 <p>The nametag is attached to each player using an invisible passenger entity so it stays fixed above their head. Some teleport commands that move a player between worlds/dimensions can fail while that passenger is still attached. This setting controls the feature that temporarily detaches and reattaches the nametag to solve this issue.</p>
@@ -374,9 +403,9 @@ configuration_content = f'''
   069a79f4-44e9-4726-a5be-fca90e38aaf5: '&f%player_name%'
   ec561538-f3fd-461d-aff5-086b6a97e6f8: '%luckperms_prefix%%player_name%' ''')}
 '''
-page("configuration", "Configuration", "Reference",
+page("configuration", "Configuration", "Guide",
      "Guide on configuring CustomPlayerNametags..",
-     configuration_content, prev=("installation", "Installation"), nxt=("commands", "Commands"))
+     configuration_content, prev=("formatting", "Nametag Formats"), nxt=("commands", "Commands"))
 
 
 # =========================================================================
@@ -399,10 +428,10 @@ commands_content = f'''
 </div>
 {callout("Automatic update checks", "The plugin also checks Modrinth for a newer version once automatically on startup, and messages any OP who joins afterward if that check found a newer version.")}
 
-<h2>format &mdash; view / set / reset</h2>
+<h2 id="format"> format &mdash; view / set / reset</h2>
 <p>Every <code>format</code> subcommand branches on a target: <code>global</code> (the server-wide format) or <code>player &lt;name&gt;</code> (a specific player's individual format).</p>
 
-<h3>view</h3>
+<h3 id="view">view</h3>
 <div class="table-wrap">
 <table>
 <thead><tr><th>Command</th><th>Shows</th></tr></thead>
@@ -414,7 +443,7 @@ commands_content = f'''
 </table>
 </div>
 
-<h3>set</h3>
+<h3 id="set">set</h3>
 <div class="table-wrap">
 <table>
 <thead><tr><th>Command</th><th>Effect</th></tr></thead>
@@ -425,7 +454,7 @@ commands_content = f'''
 </table>
 </div>
 
-<h3>reset</h3>
+<h3 id="reset">reset</h3>
 <div class="table-wrap">
 <table>
 <thead><tr><th>Command</th><th>Effect</th></tr></thead>
@@ -471,7 +500,7 @@ permissions_content = f'''
 '''
 page("permissions", "Permissions", "Reference",
      "The customplayernametags.admin permission.",
-     permissions_content, prev=("commands", "Commands"), nxt=("formatting", "Nametag Formats"))
+     permissions_content, prev=("commands", "Commands"), nxt=("troubleshooting", "Troubleshooting"))
 
 
 # =========================================================================
@@ -491,7 +520,46 @@ formatting_content = f'''
 <h1>Nametag Formats</h1>
 <p class="lede">How to customize both global and individual player nametag formats.</p>
 
-{PREVIEWER}
+{doc_image(
+    "https://cdn.modrinth.com/data/cached_images/4314f862fdfff9a0d958a8ce345277d51b429140.png",
+    "Preview of a custom player nametag."
+)}
+
+<h2 class="no-rule">Global vs. individual formats</h2>
+<p>There are two types of nametag formats in CustomPlayerNametags:</p>
+<ol>
+<li>Global &mdash; A universal format that is applied to all players by default. It can be set by either changing the <code>nametag-format</code> in config.yml, or by using the <a href="../commands/#format">command</a>.</li>
+<li>Individual &mdash; A format that is specific to a single player. It can only be set by using the <a href="../commands/#format">command</a>.</li>
+</ol>
+{callout("Format Priority", "An individual format will always override the global format for that player.")}
+
+<h2>Placeholders</h2>
+<p>Any PlaceholderAPI placeholder can be used in a nametag format string. A couple of common examples:</p>
+{code("text", "%player_name%          the player's username\n%luckperms_prefix%      the player's LuckPerms prefix\n%essentials_nickname%   the player's Essentials nickname")}
+<p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for the full syntax and how to properly use them. Without PlaceholderAPI installed, placeholders are left as literal text rather than being resolved.</p>
+
+<h2>CustomPlayerNametags placeholders</h2>
+<p>CustomPlayerNametags also registers its own PlaceholderAPI expansion placeholders, allowing other plugins that support PlaceholderAPI to utilize the same format without needing to duplicate it.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Placeholder</th><th>Returns</th></tr></thead>
+<tbody>
+<tr><td><code>%customplayernametags_format%</code></td><td>The format currently in effect for the requesting player &mdash; their individual nametag if one exists, otherwise the global <code>nametag-format</code> from <code>config.yml</code>.</td></tr>
+<tr><td><code>%customplayernametags_format_global%</code></td><td>The global <code>nametag-format</code> from config.yml.</td></tr>
+</tbody>
+</table>
+</div>
+{callout("Example Plugin Integration", "One use case for these placeholders is with the AFXPlugins plugin, <a href=\"https://modrinth.com/plugin/customadvancementmessages\" target=\"_blank\" rel=\"noopener\">CustomAdvancementMessages</a>. By using one of these placeholders in the CustomAdvancmentMessages <code>player-name-format</code> config option, you can reuse the same format across both plugins without needing to duplicate it.")}
+
+<h2 id="multiple-lines">Multiple lines</h2>
+<p>Put <code>\\n</code> anywhere in a format to start a new line:</p>
+{code("text", "%luckperms_prefix%&e%essentials_nickname%\\n&6(&b%player_name%&6)")}
+{doc_image(
+    "../assets/img/image1.png",
+    "Preview of multi-line nametag format.",
+    "Example output from format listed above."
+)}
+<p>This works with both global and individual nametag formats, and there is no limit to the number of lines you can create.</p>
 
 <h2 class="no-rule">Color and style codes</h2>
 <p>Key for all Minecraft '&' color and style codes:</p>
@@ -502,35 +570,21 @@ formatting_content = f'''
 <table>
 <thead><tr><th>Code</th><th>Style</th></tr></thead>
 <tbody>
-<tr><td><code>&amp;l</code></td><td>bold</td></tr>
-<tr><td><code>&amp;o</code></td><td>italic</td></tr>
-<tr><td><code>&amp;n</code></td><td>underline</td></tr>
-<tr><td><code>&amp;m</code></td><td>strikethrough</td></tr>
+<tr><td><code>&amp;l</code></td><td><strong>bold</strong></td></tr>
+<tr><td><code>&amp;o</code></td><td><i>italic</i></td></tr>
+<tr><td><code>&amp;n</code></td><td><u>underline</u></td></tr>
+<tr><td><code>&amp;m</code></td><td><s>strikethrough</s></td></tr>
 <tr><td><code>&amp;r</code></td><td>reset color and styles</td></tr>
 </tbody>
 </table>
 </div>
-
-<h2>Placeholders</h2>
-<p>Any PlaceholderAPI placeholder can be used in a nametag format string. A couple of common examples:</p>
-{code("text", "%player_name%          the player's username\n%luckperms_prefix%      the player's LuckPerms prefix\n%essentials_nickname%   the player's Essentials nickname")}
-<p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for the full syntax and how to properly use them. Without PlaceholderAPI installed, placeholders are left as literal text rather than being resolved.</p>
-
-<h2>Global vs. individual formats</h2>
-<p>Every player's format is loaded in this order:</p>
-<ol>
-<li>Their personal nametag format, if one has been set with <code>/nametags format set player &lt;player&gt; &lt;format&gt;</code>.</li>
-<li>Otherwise, the global <code>nametag-format</code> from config.yml.</li>
-</ol>
-
-{callout("Reloading Formats", "Changes to <code>nametag-format</code> in config.yml only take effect after <code>/nametags reload</code> (or a restart). However, individual player nametag formats get refreshed immediately after running the command.")}
 
 <h2>How often it refreshes</h2>
 <p>Nametags automatically refresh once per second for every online player, so placeholders that change over time stay up to date without needing a manual reload.</p>
 '''
 page("formatting", "Nametag Formats", "Guide",
      "How to format player nametags in CustomPlayerNametags.",
-     formatting_content, prev=("permissions", "Permissions"), nxt=("cross-play", "Bedrock & Cross-Play"))
+     formatting_content, prev=("installation", "Installation"), nxt=("configuration", "Configuration"))
 
 
 # =========================================================================
@@ -550,9 +604,9 @@ crossplay_content = f'''
 <p>The brief window where a tag is dismounted and remounted around a teleport (see <a href="../configuration/">nametag-dismount-mode</a>) also gets its own small Bedrock-only height correction, so the remount doesn't produce a visible flicker for Bedrock viewers.</p>
 
 '''
-page("cross-play", "Bedrock & Cross-Play", "Guide",
+page("cross-play", "Bedrock & Cross-Play", "Resource",
      "How CustomPlayerNametags detects Bedrock/Geyser players.",
-     crossplay_content, prev=("formatting", "Nametag Formats"), nxt=("troubleshooting", "Troubleshooting"))
+     crossplay_content, prev=("troubleshooting", "Troubleshooting"))
 
 
 # =========================================================================
@@ -572,7 +626,7 @@ troubleshooting_content = f'''
 <p>The tag is a passenger entity, and cross-world/dimension teleport commands can fail while it's still attached. This is exactly what <code>nametag-dismount-mode</code> exists to solve &mdash; see the full explanation on the <a href="../configuration/">Configuration</a> page.</p>
 
 <h2>Tag height looks slightly off for Bedrock players</h2>
-<p>Confirm Floodgate is installed and enabled &mdash; that's how the plugin tells Bedrock viewers apart from Java ones in the first place. See <a href="../cross-play/">Bedrock &amp; Cross-Play</a>.</p>
+<p>Confirm Floodgate is installed and enabled &mdash; that's how the plugin tells Bedrock viewers apart from Java oness. See <a href="../cross-play/">Bedrock &amp; Cross-Play</a>.</p>
 
 <h2>Nametag not visible</h2>
 <ul>
@@ -583,8 +637,31 @@ troubleshooting_content = f'''
 {callout("Still stuck?", "Submit an <a href=\"{REPO_URL}/issues\" target=\"_blank\" rel=\"noopener\">issue</a> on the CustomPlayerNametags GitHub repository and include details about the problem and how to reproduce it.")}
 
 '''
-page("troubleshooting", "Troubleshooting", "Guide",
+page("troubleshooting", "Troubleshooting", "Resource",
      "Fixes for common CustomPlayerNametags problems.",
-     troubleshooting_content, prev=("cross-play", "Bedrock & Cross-Play"))
+     troubleshooting_content, prev=("permissions", "Permissions"), nxt=("changelog", "Changelog"))
+
+
+# =========================================================================
+# CHANGELOG
+# =========================================================================
+changelog_content = f'''
+<h1>Changelog</h1>
+<p class="lede">Notable changes to CustomPlayerNametags, newest first.</p>
+
+<div class="changelog">
+
+<div class="changelog-entry">
+<div class="changelog-heading"><span class="changelog-version">1.0.0</span></div>
+<ul>
+<li><strong>New:</strong> initial release.</li>
+</ul>
+</div>
+
+</div>
+'''
+page("changelog", "Changelog", "Resource",
+     "What's changed in CustomPlayerNametags.",
+     changelog_content, prev=("troubleshooting", "Troubleshooting"))
 
 print("All pages generated.")

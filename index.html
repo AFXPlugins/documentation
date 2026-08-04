@@ -5,7 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Overview · CustomPlayerNametags Docs</title>
 <meta name="description" content="Documentation for CustomPlayerNametags.">
-<script>(function(){try{var t=localStorage.getItem('customplayernametags-theme');if(t&&t!=='browser'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<script>
+(function(){
+  try {
+    var t = localStorage.getItem('customplayernametags-theme');
+    if (t === 'light' || t === 'dark') {
+      document.documentElement.setAttribute('data-theme', t);
+    }
+
+    document.documentElement.setAttribute(
+      'data-toggle-state',
+      t === 'light' ? 'light' : 'dark'
+    );
+  } catch(e) {}
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,23 +28,35 @@
 </head>
 <body>
 <header class="topbar">
-  <button class="menu-btn" aria-label="Toggle navigation">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-  </button>
-  <a class="brand" href="./"><img class="brand-mark" src="assets/img/logo.png" alt="CustomPlayerNametags logo">CustomPlayerNametags</a>
-  <span class="version-badge">v1.0.0</span>
-  <div class="topbar-spacer"></div>
-  <div class="topbar-links">
-    <a class="icon-link" href="https://modrinth.com/plugin/customplayernametags" target="_blank" rel="noopener"><span class="link-text">Modrinth</span></a>
-    <a class="icon-link" href="https://github.com/AFXPlugins/CustomPlayerNametags" target="_blank" rel="noopener"><span class="link-text">GitHub</span></a>
-    <div class="theme-switcher" data-theme-switcher>
-    <button class="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Change color theme">
-      <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 1.5a7 7 0 100 14 1.6 1.6 0 001.13-2.73 1.2 1.2 0 01.85-2.05h1.36A3.66 3.66 0 0015.5 7.06 7.01 7.01 0 008.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="5.1" cy="6.6" r="0.9" fill="currentColor"/><circle cx="8.1" cy="4.4" r="0.9" fill="currentColor"/><circle cx="5.6" cy="10.2" r="0.9" fill="currentColor"/></svg>
+  <div class="topbar-inner">
+    <button class="menu-btn" aria-label="Toggle navigation">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
-    <div class="theme-menu" role="menu">
-      <button class="theme-option" type="button" role="menuitemradio" aria-checked="false" data-theme-value="browser"><span class="theme-swatch"><span style="background:#0e1013"></span><span style="background:#f6f8fb"></span></span><span class="theme-name">Browser</span><svg class="theme-check" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2l3 3L11.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="theme-option" type="button" role="menuitemradio" aria-checked="false" data-theme-value="light"><span class="theme-swatch"><span style="background:#f6f8fb"></span><span style="background:#0bdb69"></span></span><span class="theme-name">Light</span><svg class="theme-check" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2l3 3L11.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="theme-option" type="button" role="menuitemradio" aria-checked="false" data-theme-value="dark"><span class="theme-swatch"><span style="background:#0e1013"></span><span style="background:#8b93f5"></span></span><span class="theme-name">Dark</span><svg class="theme-check" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2l3 3L11.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+    <a class="brand" href="./">
+      <img class="brand-mark" src="assets/img/logo.png" alt="CustomPlayerNametags logo">
+      CustomPlayerNametags
+    </a>
+
+    <span class="version-badge">v1.0.0</span>
+
+    <div class="topbar-links">
+      <a class="icon-link" href="https://modrinth.com/plugin/customplayernametags" target="_blank" rel="noopener">
+        <span class="link-text">Modrinth</span>
+      </a>
+
+      <a class="icon-link" href="https://github.com/AFXPlugins/CustomPlayerNametags" target="_blank" rel="noopener">
+        <span class="link-text">GitHub</span>
+      </a>
+
+      <button class="theme-toggle" type="button" role="switch" aria-label="Switch between light and dark mode" data-theme-toggle>
+    <span class="theme-toggle-track">
+      <svg class="theme-toggle-icon theme-toggle-icon-sun" width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 0.6v1.6M6.5 10.8v1.6M12.4 6.5h-1.6M2.2 6.5H0.6M10.6 2.4l-1.1 1.1M3.5 9.5l-1.1 1.1M10.6 10.6l-1.1-1.1M3.5 3.5L2.4 2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <svg class="theme-toggle-icon theme-toggle-icon-moon" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M11 7.6A5 5 0 114.4 1a4 4 0 006.6 6.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      <span class="theme-toggle-thumb"></span>
+    </span>
+  </button>
     </div>
-  </div>
   </div>
 </header>
 <div class="shell">
@@ -39,15 +65,17 @@
 <a href="./" class="active"><span class="dot"></span>Overview</a>
 <a href="installation/" ><span class="dot"></span>Installation</a>
 </nav></div>
-<div class="sidebar-group"><div class="sidebar-label">Reference</div><nav>
+<div class="sidebar-group"><div class="sidebar-label">Guides</div><nav>
+<a href="formatting/" ><span class="dot"></span>Nametag Formats</a>
 <a href="configuration/" ><span class="dot"></span>Configuration</a>
+</nav></div>
+<div class="sidebar-group"><div class="sidebar-label">Reference</div><nav>
 <a href="commands/" ><span class="dot"></span>Commands</a>
 <a href="permissions/" ><span class="dot"></span>Permissions</a>
 </nav></div>
-<div class="sidebar-group"><div class="sidebar-label">Guides</div><nav>
-<a href="formatting/" ><span class="dot"></span>Nametag Formats</a>
-<a href="cross-play/" ><span class="dot"></span>Bedrock & Cross-Play</a>
+<div class="sidebar-group"><div class="sidebar-label">Resources</div><nav>
 <a href="troubleshooting/" ><span class="dot"></span>Troubleshooting</a>
+<a href="changelog/" ><span class="dot"></span>Changelog</a>
 </nav></div>
   </aside>
   <main>
@@ -55,26 +83,23 @@
       <span class="eyebrow">Documentation</span>
       
 <h1>CustomPlayerNametags</h1>
-<p class="lede">A Paper plugin that lets you fully customize player nametags. Includes both global and individual nametag formats, PlaceholderAPI support, and Bedrock compatibility.</p>
+<p class="lede">A Paper plugin that lets you fully customize player nametags. Includes global formats, individual player formats, PlaceholderAPI support, and Bedrock compatibility.</p>
 <div class="hero-buttons">
   <a class="btn btn-primary" href="https://modrinth.com/plugin/customplayernametags/versions" target="_blank" rel="noopener">Download</a>
   <a class="btn btn-ghost" href="https://github.com/AFXPlugins/CustomPlayerNametags" target="_blank" rel="noopener">View source</a>
 </div>
 
 
-<div class="previewer" data-previewer>
-  <div class="preview-image-wrap">
-    <img class="preview-image" src="https://cdn.modrinth.com/data/cached_images/4314f862fdfff9a0d958a8ce345277d51b429140.png" alt="Preview of custom player nametags in game" loading="lazy">
-  </div>
+<div class="doc-image-frame">
+  <img class="doc-image" src="https://cdn.modrinth.com/data/cached_images/4314f862fdfff9a0d958a8ce345277d51b429140.png" alt="Preview of a custom player nametag." loading="lazy">
+  
 </div>
 
 
 <h2 class="no-rule">What it does</h2>
 <div class="grid grid-2">
-  <div class="card"><h3>Fully custom nametags</h3><p>Replace the vanilla player nametag display entirely &mdash; including the player's username &mdash; with a custom format using PlaceholderAPI placeholders.</p></div>
-  <div class="card"><h3>Global + individual player formats</h3><p>Set one global <code>nametag-format</code> as a default format for the whole server. Additionally, set custom formats for individual players.</p></div>
-  <div class="card"><h3>Java &amp; Bedrock compatible</h3><p>Detects Geyser/Floodgate players automatically and applies a separate vertical offset so tags line up correctly on both clients.</p></div>
-  <div class="card"><h3>CustomAdvancementMessages Integration</h3><p>Use <code>%customplayernametags_format%</code> placeholder in advancement player name format to sync formats between plugins.</p></div>
+  <div class="card"><h3>Fully custom nametags</h3><p>Replace the entire vanilla player nametag display entirely with a custom format using PlaceholderAPI placeholders.</p></div>
+  <div class="card"><h3>Global + individual player formats</h3><p>Set one global <code>nametag-format</code> as a default format for the whole server. Additionally set custom formats for individual players.</p></div>
 </div>
 
 <h2>Requirements</h2>
@@ -91,11 +116,11 @@
 <h2>Explore the Docs</h2>
 <div class="grid grid-3">
   <a class="card" href="installation"><span class="card-icon">01</span><h3>Installation</h3><p>Install the plugin, dependencies, and verify everything is working.</p></a>
-  <a class="card" href="configuration"><span class="card-icon">02</span><h3>Configuration</h3><p>Guide on customizing settings, messages, and player formats.</p></a>
-  <a class="card" href="commands"><span class="card-icon">03</span><h3>Commands</h3><p>View all <code>/nametags</code> commands and how to use them.</p></a>
-  <a class="card" href="permissions"><span class="card-icon">04</span><h3>Permissions</h3><p>Manage access to plugin commands and features.</p></a>
-  <a class="card" href="formatting"><span class="card-icon">05</span><h3>Nametag Formats</h3><p>Learn how to format and customize nametags.</p>
-  <a class="card" href="cross-play"><span class="card-icon">06</span><h3>Bedrock &amp; Cross-Play</h3><p>See how Java and Bedrock players are supported.</p></a>
+  <a class="card" href="formatting"><span class="card-icon">02</span><h3>Nametag Formats</h3><p>Learn how to format and customize nametags.</p></a>
+  <a class="card" href="configuration"><span class="card-icon">03</span><h3>Configuration</h3><p>Guide on customizing settings, messages, and player formats.</p></a>
+  <a class="card" href="commands"><span class="card-icon">04</span><h3>Commands</h3><p>View all <code>/nametags</code> commands and how to use them.</p></a>
+  <a class="card" href="permissions"><span class="card-icon">05</span><h3>Permissions</h3><p>Manage access to plugin commands and features.</p></a>
+  <a class="card" href="troubleshooting"><span class="card-icon">06</span><h3>Troubleshooting</h3><p>Troubleshooting tips for common plugin issues.</p></a>
 </div>
 
       <div class="prev-next"><div></div><a class="pn-link pn-next" href="installation/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Installation</div></a></div>
