@@ -683,8 +683,9 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 
 /* responsive */
 @media (max-width: 900px){
-  :root{
-    --topbar-h: 68px;
+  .topbar-links{
+    margin-left:auto;
+    gap:0.5em;
   }
 
   .grid-2, .grid-3{
@@ -749,7 +750,7 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
   }
 
   .theme-toggle{
-    margin-left: 0.35rem;
+    margin-left:0;
   }
 
   main{
