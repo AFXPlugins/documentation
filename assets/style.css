@@ -685,7 +685,7 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 /* ---------- mobile ---------- */
 @media (max-width: 900px){
   :root{
-    --topbar-h: 56px;
+    --topbar-h: 64px;
   }
 
   .grid-2,
@@ -693,42 +693,28 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
     grid-template-columns: 1fr;
   }
 
-  /* ---------- left opening sidebar ---------- */
+  /* ---------- sidebar / page selector ---------- */
   .sidebar{
     position: fixed;
     left: 0;
-    right: auto;
     top: var(--topbar-h);
     z-index: 35;
 
-    width: 78vw;
-    max-width: 270px;
+    width: 82vw;
+    max-width: 290px;
     height: calc(100vh - var(--topbar-h));
 
     background: var(--bg-alt);
     transform: translateX(-100%);
     transition: transform .2s ease;
 
-    padding: 1.2em 1em 2em;
+    padding: 1.4em 1em 3em;
     border-right: 1px solid var(--border-soft);
-    border-left: none;
   }
 
+  /* only opens when JS adds .open */
   .sidebar.open{
     transform: translateX(0);
-  }
-
-  .sidebar-group{
-    margin-bottom: 1.2em;
-  }
-
-  .sidebar-label{
-    font-size: 0.62rem;
-  }
-
-  .sidebar nav a{
-    padding: 0.35em 0.5em;
-    font-size: 0.82rem;
   }
 
   /* ---------- topbar ---------- */
@@ -738,110 +724,99 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
   }
 
   .topbar-inner{
-    padding: 0 0.65em;
-    gap: 0.45em;
-    justify-content: flex-start;
+    padding: 0 0.8em;
+    display:flex;
+    align-items:center;
+    gap:0.6em;
   }
 
-  /* menu button on the left */
+  /* page selector button */
   .menu-btn{
     display:flex;
     align-items:center;
     justify-content:center;
 
-    width:30px;
-    height:30px;
+    width:34px;
+    height:34px;
     flex:none;
 
-    border-radius:6px;
-    font-size:0.8rem;
-
-    order:0;
+    border-radius:7px;
+    font-size:0.85rem;
   }
 
-  /* logo + title */
+  /* ---------- logo ---------- */
   .brand{
-    gap:0.35em !important;
+    gap:0.45em !important;
     min-width:0;
   }
 
   .brand-mark{
-    width:38px;
-    height:38px;
-    border-radius:7px;
+    width:48px;
+    height:48px;
+    border-radius:8px;
   }
 
   .brand-text{
-    gap:0.1em;
+    gap:0.15em;
   }
 
   .brand-text-top{
-    font-size:0.5rem;
-    letter-spacing:0.12em;
+    font-size:0.58rem;
   }
 
   .brand-text-bottom{
-    font-size:0.8rem;
+    font-size:0.95rem;
   }
 
   .topbar .version-badge{
-    font-size:0.55rem;
-    padding:0.12em 0.35em;
-    margin-left:0;
+    font-size:0.62rem;
+    padding:0.14em 0.4em;
+    margin-left:-0.1em;
   }
 
-  /* ---------- right controls ---------- */
+  /* ---------- right side controls ---------- */
   .topbar-links{
     margin-left:auto;
-    gap:0.35em;
+    display:flex;
+    align-items:center;
+    gap:0.45em;
   }
 
   .topbar-links a{
     display:none;
   }
 
-  /* theme toggle */
+  /* theme slider stays right */
   .theme-toggle{
-    order:2;
-    margin-left:0;
+    margin-left:auto;
   }
 
   .theme-toggle-track{
-    width:44px;
-    height:23px;
-    border-width:1.5px;
+    width:50px;
+    height:26px;
   }
 
   .theme-toggle-thumb{
-    width:17px;
-    height:17px;
-    left:3px;
-  }
-
-  .theme-toggle-icon{
-    width:11px;
-    height:11px;
-  }
-
-  .theme-toggle-icon-sun{
-    left:6px;
-  }
-
-  .theme-toggle-icon-moon{
-    right:6px;
+    width:19px;
+    height:19px;
   }
 
   .theme-toggle[aria-checked="true"] .theme-toggle-thumb{
-    transform:translate(20px,-50%);
+    transform:translate(23px,-50%);
   }
 
   html[data-toggle-state="dark"] .theme-toggle-thumb{
-    transform:translate(20px,-50%);
+    transform:translate(23px,-50%);
+  }
+
+  .theme-toggle-icon{
+    width:13px;
+    height:13px;
   }
 
   /* ---------- content ---------- */
   main{
-    padding:1.5em 1em 4em;
+    padding:2em 1.1em 5em;
   }
 
   h1{
@@ -850,14 +825,9 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 
   h2{
     font-size:1.35rem;
-    margin-top:2em;
   }
 
   .lede{
     font-size:1rem;
-  }
-
-  .callout{
-    padding:0.75em 0.9em;
   }
 }
