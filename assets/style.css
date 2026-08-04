@@ -682,78 +682,79 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 .pn-next{ text-align:right; }
 
 /* responsive */
-@media (max-width: 900px){
-  .topbar-links{
-    margin-left: auto;
+@media (max-width: 900px) {
+  .topbar {
+    height: var(--topbar-h);
+    padding: 0 0.75em;
+    gap: 0;
+    overflow: hidden; /* Prevents horizontal scroll leaks */
+  }
+
+  .topbar-inner {
+    padding: 0;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Spreads brand to left, controls to right */
     gap: 0.5em;
   }
 
-  .grid-2, .grid-3{
-    grid-template-columns: 1fr;
+  /* Compact Brand Section */
+  .topbar .brand {
+    gap: 0.5em;
+    min-width: 0; /* Allows text truncation if screen is very narrow */
+    flex: 1 1 auto;
   }
 
-  .sidebar{
-    position: fixed;
-    left: 0;
-    top: var(--topbar-h);
-    z-index: 35;
-    width: 84vw;
-    max-width: 300px;
-    background: var(--bg-alt);
-    transform: translateX(-100%);
-    transition: transform .2s ease;
-    height: calc(100vh - var(--topbar-h));
+  .brand-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    flex-shrink: 0;
   }
 
-  .sidebar.open{
-    transform: translateX(0);
+  .brand-text-top {
+    font-size: 0.58rem;
   }
 
-  .menu-btn{
+  .brand-text-bottom {
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Prevents long text from breaking layout */
+  }
+
+  /* Optional: Hide version badge on mobile if space is tight */
+  .topbar .version-badge {
+    display: none; 
+  }
+
+  /* Right-side Actions (Toggle + Menu Button) */
+  .topbar-links {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    flex-shrink: 0; /* Ensures buttons never shrink or get squished */
+  }
+
+  .topbar-links a {
+    display: none; /* Hides desktop navigation text links */
+  }
+
+  .theme-toggle {
+    margin-left: 0;
+    flex-shrink: 0;
+  }
+
+  .menu-btn {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
-  .topbar{
-    height: var(--topbar-h);
-    padding: 0 1em;
-    gap: 0.7em;
-  }
-
-  .topbar-inner{
-    padding: 0 1em;
-  }
-
-  .brand-mark{
-    width: 54px;
-    height: 54px;
-    border-radius: 8px;
-  }
-
-  .brand-text-top{
-    font-size: 0.62rem;
-  }
-
-  .brand-text-bottom{
-    font-size: 1rem;
-  }
-
-  .topbar .version-badge{
-    font-size: 0.65rem;
-    padding: 0.15em 0.45em;
-    margin-left: -0.25em;
-  }
-
-  .topbar-links a{
-    display: none;
-  }
-
-  .theme-toggle{
-    margin-left: 0;
-  }
-
-  main{
+  main {
     padding-top: 2.2em;
   }
 }
