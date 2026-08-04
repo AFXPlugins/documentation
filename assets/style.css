@@ -444,12 +444,12 @@ html[data-toggle-state="dark"] .theme-toggle-thumb{
   position: absolute;
   z-index: 2;
   top: 50%;
-  left: 4px;
+  left: 4.5px;
   width: 22px;
   height: 22px;
   border-radius: 50%;
   transform: translateY(-50%);
-  background: #fff;
+  background: #ffffff80;
   border: 1px solid rgba(0,0,0,.12);
   box-shadow:
     0 2px 6px rgba(0,0,0,.25);
@@ -458,7 +458,7 @@ html[data-toggle-state="dark"] .theme-toggle-thumb{
 }
 
 .theme-toggle[aria-checked="true"] .theme-toggle-thumb{
-  transform: translate(28px, -50%);
+  transform: translate(22px, -50%);
 }
 
 .menu-btn{
@@ -771,7 +771,7 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
   .topbar .version-badge{
     font-size:0.62rem;
     padding:0.14em 0.4em;
-    margin-left:-0.1em;
+    margin-left:-0.55em;
   }
 
   /* ---------- right side controls ---------- */
@@ -788,7 +788,7 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 
   /* theme slider stays right */
   .theme-toggle{
-    margin-left:auto;
+    transform:translateX(-2.5px);
   }
 
   .theme-toggle-track{
@@ -799,19 +799,24 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
   .theme-toggle-thumb{
     width:19px;
     height:19px;
+    left: 5px;
   }
 
   .theme-toggle[aria-checked="true"] .theme-toggle-thumb{
-    transform:translate(23px,-50%);
+    transform:translate(17px,-50%);
   }
 
   html[data-toggle-state="dark"] .theme-toggle-thumb{
-    transform:translate(23px,-50%);
+    transform:translate(17px,-50%);
   }
 
   .theme-toggle-icon{
     width:13px;
     height:13px;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    transition:none;
   }
 
   /* ---------- content ---------- */
