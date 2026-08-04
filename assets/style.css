@@ -371,10 +371,10 @@ pre code{
   margin-left: -0.70em;
 }
 .topbar-links{
-  display:flex;
-  align-items:center;
-  gap:0.9em;
-  margin-left: 43em;
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  margin-left: auto; /* Pushes links & toggle all the way to the right */
 }
 .topbar-links{ display:flex; align-items:center; gap: 0.9em; }
 .topbar-links a{ color: var(--text-dim); font-size: 0.88rem; }
@@ -684,8 +684,8 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
 /* responsive */
 @media (max-width: 900px){
   .topbar-links{
-    margin-left:auto;
-    gap:0.5em;
+    margin-left: auto;
+    gap: 0.5em;
   }
 
   .grid-2, .grid-3{
@@ -750,7 +750,7 @@ a.card:hover{ text-decoration:none; border-color: var(--lime); transform: transl
   }
 
   .theme-toggle{
-    margin-left:0;
+    margin-left: 0;
   }
 
   main{
