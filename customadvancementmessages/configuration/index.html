@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuration &middot; CustomAdvancementMessages Docs</title>
+<meta name="description" content="Guide on configuring CustomAdvancementMessages.">
+<script>
+(function(){
+  try {
+    var t = localStorage.getItem('afxplugins-theme');
+    if (t === 'light' || t === 'dark') {
+      document.documentElement.setAttribute('data-theme', t);
+    }
+    document.documentElement.setAttribute(
+      'data-toggle-state',
+      t === 'light' ? 'light' : 'dark'
+    );
+  } catch(e) {}
+})();
+</script>
+<link rel="icon" href="../assets/img/logo-advancements.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" aria-label="Toggle navigation">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+
+    <a class="afx-home-link" href="../../">
+      <img src="../assets/img/afx-mark.png" alt="AFXPlugins">
+      <span class="afx-home-text">AFXPlugins</span>
+    </a>
+    <span class="afx-sep">/</span>
+
+    <a class="brand" href="../">
+      <img class="brand-mark" src="../assets/img/logo-advancements.png" alt="CustomAdvancementMessages logo">
+      CustomAdvancementMessages
+    </a>
+
+    <span class="version-badge">v1.0.0</span>
+
+    <div class="topbar-links">
+      <a class="icon-link" href="https://modrinth.com/plugin/customadvancementmessages" target="_blank" rel="noopener">
+        <span class="link-text">Modrinth</span>
+      </a>
+
+      <a class="icon-link" href="https://github.com/AFXPlugins/CustomAdvancementMessages" target="_blank" rel="noopener">
+        <span class="link-text">GitHub</span>
+      </a>
+
+      <button class="theme-toggle" type="button" role="switch" aria-label="Switch between light and dark mode" data-theme-toggle>
+    <span class="theme-toggle-track">
+      <svg class="theme-toggle-icon theme-toggle-icon-sun" width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 0.6v1.6M6.5 10.8v1.6M12.4 6.5h-1.6M2.2 6.5H0.6M10.6 2.4l-1.1 1.1M3.5 9.5l-1.1 1.1M10.6 10.6l-1.1-1.1M3.5 3.5L2.4 2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <svg class="theme-toggle-icon theme-toggle-icon-moon" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M11 7.6A5 5 0 114.4 1a4 4 0 006.6 6.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      <span class="theme-toggle-thumb"></span>
+    </span>
+  </button>
+    </div>
+  </div>
+</header>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-group"><div class="sidebar-label">Getting Started</div><nav>
+<a href="../" ><span class="dot"></span>Overview</a>
+<a href="../installation/" ><span class="dot"></span>Installation</a>
+</nav></div>
+<div class="sidebar-group"><div class="sidebar-label">Guides</div><nav>
+<a href="../configuration/" class="active"><span class="dot"></span>Configuration</a>
+<a href="../placeholders/" ><span class="dot"></span>Placeholders & Colors</a>
+</nav></div>
+<div class="sidebar-group"><div class="sidebar-label">Reference</div><nav>
+<a href="../commands/" ><span class="dot"></span>Commands</a>
+<a href="../permissions/" ><span class="dot"></span>Permissions</a>
+</nav></div>
+<div class="sidebar-group"><div class="sidebar-label">Resources</div><nav>
+<a href="../troubleshooting/" ><span class="dot"></span>Troubleshooting</a>
+<a href="../changelog/" ><span class="dot"></span>Changelog</a>
+</nav></div>
+  </aside>
+  <main>
+    <div class="content">
+      <span class="eyebrow">Guide</span>
+      
+<h1>Configuration</h1>
+<p class="lede">Guide on configuring CustomAdvancementMessages.</p>
+
+<h2 class="no-rule">config.yml</h2>
+<p>Reload any change with <a href="../commands/"><code>/advancements reload</code></a>.</p>
+<div class="code-block"><pre><code><span class="tok-com"># Format for the player name in advancement messages.</span>
+<span class="tok-com"># Supports any PlaceholderAPI placeholder and &#39;&amp;&#39; colors.</span>
+<span class="tok-com"># Default: %player_name%</span>
+<span class="tok-com"># Example: %luckperms_prefix%%essentials_nickname%</span>
+<span class="tok-key">player-name-format:</span> <span class="tok-str">"%player_name%"</span>
+
+<span class="tok-com"># Advancement message formats. Each phrase supports &#39;&amp;&#39; colors.</span>
+<span class="tok-key">messages:</span>
+    <span class="tok-key">task:</span>
+        <span class="tok-key">phrase:</span> <span class="tok-str">"&amp;fhas made the advancement"</span>
+
+    <span class="tok-key">goal:</span>
+        <span class="tok-key">phrase:</span> <span class="tok-str">"&amp;fhas reached the goal"</span>
+
+    <span class="tok-key">challenge:</span>
+        <span class="tok-key">phrase:</span> <span class="tok-str">"&amp;fhas completed the challenge"</span>
+</code></pre><button class="copy-btn">copy</button></div>
+
+<h3>player-name-format</h3>
+<p>The format used for a player's name in an advancement message. Supports any PlaceholderAPI placeholder and <code>&amp;</code> colors &mdash; see <a href="../placeholders/">Placeholders &amp; Colors</a> for more information.</p>
+<div class="callout"><span class="callout-title">Falls back safely</span><p>If a placeholder fails to resolve, the plugin falls back to the player's regular username.</p></div>
+
+<h3>messages</h3>
+<p>Individualy customize phrases for rach advancement type: &mdash; <code>task</code>, <code>goal</code>, and <code>challenge</code>.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Key</th><th>Purpose</th><th>Default</th></tr></thead>
+<tbody>
+<tr><td><code>messages.task.phrase</code></td><td>Shown for regular advancements.</td><td><code>&amp;fhas made the advancement</code></td></tr>
+<tr><td><code>messages.goal.phrase</code></td><td>Shown for goal-type advancements.</td><td><code>&amp;fhas reached the goal</code></td></tr>
+<tr><td><code>messages.challenge.phrase</code></td><td>Shown for challenge-type advancements.</td><td><code>&amp;fhas completed the challenge</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>The full rebuilt message is always assembled in this order:</p>
+<div class="code-block"><pre><code class="lang-text">&lt;player name&gt; &lt;phrase&gt; &lt;advancement name&gt;</code></pre><button class="copy-btn">copy</button></div>
+<div class="callout"><span class="callout-title">Preview command</span><p>See <a href="../commands/">commands</a> to learn how to preview advancment messages with your current config.</p></div>
+
+      <div class="prev-next"><a class="pn-link pn-prev" href="../installation/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Installation</div></a><a class="pn-link pn-next" href="../placeholders/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Placeholders & Colors</div></a></div>
+      <footer class="page-footer">
+        <span>CustomAdvancementMessages v1.0.0 &middot; by <a href="../../">AFXPlugins</a></span>
+        <span><a href="https://github.com/AFXPlugins/CustomAdvancementMessages" target="_blank" rel="noopener">Source on GitHub</a></span>
+      </footer>
+    </div>
+  </main>
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>

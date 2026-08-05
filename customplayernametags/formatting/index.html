@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nametag Formats &middot; CustomPlayerNametags Docs</title>
+<meta name="description" content="How to format player nametags in CustomPlayerNametags.">
+<script>
+(function(){
+  try {
+    var t = localStorage.getItem('afxplugins-theme');
+    if (t === 'light' || t === 'dark') {
+      document.documentElement.setAttribute('data-theme', t);
+    }
+    document.documentElement.setAttribute(
+      'data-toggle-state',
+      t === 'light' ? 'light' : 'dark'
+    );
+  } catch(e) {}
+})();
+</script>
+<link rel="icon" href="../assets/img/logo-nametags.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" aria-label="Toggle navigation">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+
+    <a class="afx-home-link" href="../../">
+      <img src="../assets/img/afx-mark.png" alt="AFXPlugins">
+      <span class="afx-home-text">AFXPlugins</span>
+    </a>
+    <span class="afx-sep">/</span>
+
+    <a class="brand" href="../">
+      <img class="brand-mark" src="../assets/img/logo-nametags.png" alt="CustomPlayerNametags logo">
+      CustomPlayerNametags
+    </a>
+
+    <span class="version-badge">v1.0.0</span>
+
+    <div class="topbar-links">
+      <a class="icon-link" href="https://modrinth.com/plugin/customplayernametags" target="_blank" rel="noopener">
+        <span class="link-text">Modrinth</span>
+      </a>
+
+      <a class="icon-link" href="https://github.com/AFXPlugins/CustomPlayerNametags" target="_blank" rel="noopener">
+        <span class="link-text">GitHub</span>
+      </a>
+
+      <button class="theme-toggle" type="button" role="switch" aria-label="Switch between light and dark mode" data-theme-toggle>
+    <span class="theme-toggle-track">
+      <svg class="theme-toggle-icon theme-toggle-icon-sun" width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 0.6v1.6M6.5 10.8v1.6M12.4 6.5h-1.6M2.2 6.5H0.6M10.6 2.4l-1.1 1.1M3.5 9.5l-1.1 1.1M10.6 10.6l-1.1-1.1M3.5 3.5L2.4 2.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <svg class="theme-toggle-icon theme-toggle-icon-moon" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M11 7.6A5 5 0 114.4 1a4 4 0 006.6 6.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      <span class="theme-toggle-thumb"></span>
+    </span>
+  </button>
+    </div>
+  </div>
+</header>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-group"><div class="sidebar-label">Getting Started</div><nav>
+<a href="../" ><span class="dot"></span>Overview</a>
+<a href="../installation/" ><span class="dot"></span>Installation</a>
+</nav></div>
+<div class="sidebar-group"><div class="sidebar-label">Guides</div><nav>
+<a href="../formatting/" class="active"><span class="dot"></span>Nametag Formats</a>
+<a href="../configuration/" ><span class="dot"></span>Configuration</a>
+</nav></div>
+<div class="sidebar-group"><div class="sidebar-label">Reference</div><nav>
+<a href="../commands/" ><span class="dot"></span>Commands</a>
+<a href="../permissions/" ><span class="dot"></span>Permissions</a>
+</nav></div>
+<div class="sidebar-group"><div class="sidebar-label">Resources</div><nav>
+<a href="../troubleshooting/" ><span class="dot"></span>Troubleshooting</a>
+<a href="../changelog/" ><span class="dot"></span>Changelog</a>
+</nav></div>
+  </aside>
+  <main>
+    <div class="content">
+      <span class="eyebrow">Guide</span>
+      
+<h1>Nametag Formats</h1>
+<p class="lede">How to customize both global and individual player nametag formats.</p>
+
+
+<div class="doc-image-frame">
+  <img class="doc-image" src="https://cdn.modrinth.com/data/cached_images/4314f862fdfff9a0d958a8ce345277d51b429140.png" alt="Preview of a custom player nametag." loading="lazy">
+  
+</div>
+
+
+<h2 class="no-rule">Global vs. individual formats</h2>
+<p>There are two types of nametag formats in CustomPlayerNametags:</p>
+<ol>
+<li>Global &mdash; A universal format that is applied to all players by default. It can be set by either changing the <code>nametag-format</code> in config.yml, or by using the <a href="../commands/#format">command</a>.</li>
+<li>Individual &mdash; A format that is specific to a single player. It can only be set by using the <a href="../commands/#format">command</a>.</li>
+</ol>
+<div class="callout"><span class="callout-title">Format Priority</span><p>An individual format will always override the global format for that player.</p></div>
+
+<h2>Placeholders</h2>
+<p>Any PlaceholderAPI placeholder can be used in a nametag format string. A couple of common examples:</p>
+<div class="code-block"><pre><code class="lang-text">%player_name%          the player&#x27;s username\n%luckperms_prefix%      the player&#x27;s LuckPerms prefix\n%essentials_nickname%   the player&#x27;s Essentials nickname</code></pre><button class="copy-btn">copy</button></div>
+<p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for in-depth info on using them. Without PlaceholderAPI installed, placeholders are left as literal text rather than being resolved.</p>
+
+<h2>CustomPlayerNametags placeholders</h2>
+<p>CustomPlayerNametags also registers its own PlaceholderAPI expansion placeholders, allowing other plugins that support PlaceholderAPI to utilize the same format without needing to duplicate it.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Placeholder</th><th>Returns</th></tr></thead>
+<tbody>
+<tr><td><code>%customplayernametags_format%</code></td><td>The format currently in effect for the requesting player &mdash; their individual nametag if one exists, otherwise the global <code>nametag-format</code> from <code>config.yml</code>.</td></tr>
+<tr><td><code>%customplayernametags_format_global%</code></td><td>The global <code>nametag-format</code> from config.yml.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout"><span class="callout-title">Example Plugin Integration</span><p>One use case for these placeholders is with another AFXPlugins plugin, <a href="../../customadvancementmessages/" target="_blank" rel="noopener">CustomAdvancementMessages</a>. By using one of these placeholders in the CustomAdvancementMessages <code>player-name-format</code> config option, you can reuse the same format across both plugins without needing to duplicate it.</p></div>
+
+<h2 id="multiple-lines">Multiple lines</h2>
+<p>Put <code>\n</code> anywhere in a format to start a new line:</p>
+<div class="code-block"><pre><code class="lang-text">%luckperms_prefix%&amp;e%essentials_nickname%\n&amp;6(&amp;b%player_name%&amp;6)</code></pre><button class="copy-btn">copy</button></div>
+
+<div class="doc-image-frame">
+  <img class="doc-image" src="../assets/img/image1.png" alt="Preview of multi-line nametag format." loading="lazy">
+  <div class="doc-image-caption">Example output from format listed above.</div>
+</div>
+
+<p>This works with both global and individual nametag formats, and there is no limit to the number of lines you can create.</p>
+
+<h2 class="no-rule">Color and style codes</h2>
+<p>Key for all Minecraft '&' color and style codes:</p>
+<div class="table-wrap">
+<table><thead><tr><th>Code</th><th>Color</th></tr></thead><tbody><tr><td><code>&amp;0</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#000000;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>black</td></tr><tr><td><code>&amp;1</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#0000AA;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>dark blue</td></tr><tr><td><code>&amp;2</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#00AA00;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>dark green</td></tr><tr><td><code>&amp;3</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#00AAAA;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>dark aqua</td></tr><tr><td><code>&amp;4</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#AA0000;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>dark red</td></tr><tr><td><code>&amp;5</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#AA00AA;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>dark purple</td></tr><tr><td><code>&amp;6</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#FFAA00;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>gold</td></tr><tr><td><code>&amp;7</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#AAAAAA;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>gray</td></tr><tr><td><code>&amp;8</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#555555;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>dark gray</td></tr><tr><td><code>&amp;9</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#5555FF;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>blue</td></tr><tr><td><code>&amp;a</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#55FF55;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>green</td></tr><tr><td><code>&amp;b</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#55FFFF;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>aqua</td></tr><tr><td><code>&amp;c</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#FF5555;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>red</td></tr><tr><td><code>&amp;d</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#FF55FF;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>light purple</td></tr><tr><td><code>&amp;e</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#FFFF55;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>yellow</td></tr><tr><td><code>&amp;f</code></td><td><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#FFFFFF;border:1px solid var(--border);vertical-align:middle;margin-right:0.5em;"></span>white</td></tr></tbody></table>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Code</th><th>Style</th></tr></thead>
+<tbody>
+<tr><td><code>&amp;l</code></td><td><strong>bold</strong></td></tr>
+<tr><td><code>&amp;o</code></td><td><i>italic</i></td></tr>
+<tr><td><code>&amp;n</code></td><td><u>underline</u></td></tr>
+<tr><td><code>&amp;m</code></td><td><s>strikethrough</s></td></tr>
+<tr><td><code>&amp;r</code></td><td>reset color and styles</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>How often it refreshes</h2>
+<p>Nametags automatically refresh once per second for every online player, so placeholders that change over time stay up to date without needing a manual reload.</p>
+
+      <div class="prev-next"><a class="pn-link pn-prev" href="../installation/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Installation</div></a><a class="pn-link pn-next" href="../configuration/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Configuration</div></a></div>
+      <footer class="page-footer">
+        <span>CustomPlayerNametags v1.0.0 &middot; by <a href="../../">AFXPlugins</a></span>
+        <span><a href="https://github.com/AFXPlugins/CustomPlayerNametags" target="_blank" rel="noopener">Source on GitHub</a></span>
+      </footer>
+    </div>
+  </main>
+</div>
+<script src="../assets/app.js"></script>
+</body>
+</html>
