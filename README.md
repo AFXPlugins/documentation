@@ -1,2 +1,2 @@
-# CustomPlayerNametags-Documentation
-Documentation for the CustomPlayerNametags plugin.
+# documentation
+Documentation for all AFXPlugins plugins.
