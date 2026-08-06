@@ -55,8 +55,8 @@ index_content = f'''
 <table>
 <thead><tr><th>Dependency</th><th>Role</th><th>Notes</th></tr></thead>
 <tbody>
-<tr><td><a href="https://modrinth.com/plugin/packetevents" target="_blank" rel="noopener">PacketEvents</a> <span class="tag req">required</span></td><td>Core packet handling</td><td>Lets the plugin intercept and rewrite the advancement chat packet before it reaches players &mdash; the plugin will not work without it.</td></tr>
-<tr><td><a href="https://modrinth.com/plugin/placeholderapi" target="_blank" rel="noopener">PlaceholderAPI</a> <span class="tag req">required</span></td><td>Placeholder resolution</td><td>Without it, <code>player-name-format</code> falls back to the player's plain username instead of resolving <code>%placeholder%</code> values.</td></tr>
+<tr><td><a href="https://modrinth.com/plugin/packetevents" target="_blank" rel="noopener">PacketEvents</a> <span class="tag req">required</span></td><td>Core packet handling</td><td>Lets the plugin intercept and rewrite the advancement chat packet before it reaches players.</td></tr>
+<tr><td><a href="https://modrinth.com/plugin/placeholderapi" target="_blank" rel="noopener">PlaceholderAPI</a> <span class="tag req">required</span></td><td>Placeholder resolution</td><td>Lets the plugin resolve <code>%placeholder%</code> values that are used in the <code>player-name-format</code>.</td></tr>
 </tbody>
 </table>
 </div>
@@ -90,7 +90,7 @@ installation_content = f'''
 <thead><tr><th>Plugin</th><th>Why</th></tr></thead>
 <tbody>
 <tr><td><a href="https://modrinth.com/plugin/packetevents" target="_blank" rel="noopener">PacketEvents</a> <span class="tag req">required</span></td><td>Allows intercepting and editing the advancement messages before they reach players and needed for the plugin to function properly.</td></tr>
-<tr><td><a href="https://modrinth.com/plugin/placeholderapi" target="_blank" rel="noopener">PlaceholderAPI</a> <span class="tag req">required</span></td><td>Resolves any placeholder used in <code>player-name-format</code>. The plugin still loads without it, but every player name falls back to their plain username.</td></tr>
+<tr><td><a href="https://modrinth.com/plugin/placeholderapi" target="_blank" rel="noopener">PlaceholderAPI</a> <span class="tag req">required</span></td><td>Allows resolving any placeholder used in <code>player-name-format</code>.</td></tr>
 </tbody>
 </table>
 </div>
