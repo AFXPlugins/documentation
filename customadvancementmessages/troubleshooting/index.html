@@ -92,18 +92,15 @@
 <p class="lede">Common issues and how to fix them.</p>
 
 <h2 class="no-rule">Plugin won't enable</h2>
-<p>Check your console for a message about a missing dependency. <code>PacketEvents</code> is a required dependency &mdash; if it isn't installed and enabled, CustomAdvancementMessages won't start.</p>
+<li>Make sure the latest versions of <code>PacketEvents</code> and <code>PacketEvents</code> are installed. They are both required dependencies, and CustomAdvancementMessages won't start without them.</li>
 
 <h2>Placeholders show up as literal text</h2>
-<p>PlaceholderAPI is a required dependency, so the plugin won't enable at all without it &mdash; if that's the problem you'll see it fail to start, per the section above. If the plugin is running fine but one specific placeholder just isn't resolving, it's usually a missing expansion for that placeholder (e.g., the LuckPerms expansion for <code>%luckperms_prefix%</code>). Confirm PlaceholderAPI itself can resolve it with <code>/papi parse &lt;username&gt; &lt;placeholder&gt;</code> in-game. The built-in <code>{player}</code> placeholder always resolves regardless of PlaceholderAPI.</p>
-
-<h2>Advancement messages aren't being rewritten at all</h2>
-<ul>
-<li>Confirm PacketEvents is actually enabled (not just installed) &mdash; check its own console output on startup.</li>
-<li>Try <a href="../commands/#preview"><code>/advancements preview</code></a> to test if that works properly.</li>
-</ul>
+<li>Confirm that PlaceholderAPI itself can resolve the placeholder with <code>/papi parse &lt;username&gt; &lt;placeholder&gt;</code>.</li>
+<li>Make sure any PlaceholderAPI expansions for the placeholder are installed (e.g., the LuckPerms expansion for <code>%luckperms_prefix%</code>). Download expansions with <code>/papi ecloud download &lt;expansion&gt;</code>.</li>
+<br>
+<br>
 <hr>
-<div class="callout"><span class="callout-title">Still stuck?</span><p>Submit an <a href="https://github.com/AFXPlugins/CustomAdvancementMessages/issues" target="_blank" rel="noopener">issue</a> on the CustomAdvancementMessages GitHub repository and include details about the problem and how to reproduce it.</p></div>
+<div class="callout"><span class="callout-title">Still stuck?</span><p>Submit an <a href="https://github.com/AFXPlugins/CustomAdvancementMessages/issues" target="_blank" rel="noopener">issue</a> on the CustomAdvancementMessages GitHub repository and include any console errors, details about the problem, and how to reproduce it.</p></div>
 
 
       <div class="prev-next"><a class="pn-link pn-prev" href="../permissions/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Permissions</div></a><a class="pn-link pn-next" href="../changelog/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Changelog</div></a></div>

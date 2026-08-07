@@ -89,7 +89,7 @@
       <span class="eyebrow">Reference</span>
       
 <h1>Commands</h1>
-<p class="lede">All CustomAdvancementMessages commands are under <code>/advancements</code> (alias <code>/customadvancementmessages</code>). All commands require the admin permission &mdash; see <a href="../permissions/">Permissions</a>.</p>
+<p class="lede">All CustomAdvancementMessages commands are under <code>/advancements</code> (alias <code>/customadvancementmessages</code>). All commands require the <a href="../permissions/">admin permission</a>.</p>
 
 <h2 class="no-rule">Top level</h2>
 <div class="table-wrap">
@@ -98,11 +98,11 @@
 <tbody>
 <tr><td><code>/advancements reload</code></td><td>Reloads config.yml and applies changes.</td></tr>
 <tr><td><code>/advancements update</code></td><td>Runs a fresh check against the plugin's Modrinth project and reports whether a newer <em>release</em>-type version is available. Pre-release/beta versions are ignored.</td></tr>
-<tr><td><code>/advancements preview [task|goal|challenge]</code></td><td>Sends <em>you</em> a mock advancement message built from your current config &mdash; see below.</td></tr>
+<tr><td><code>/advancements preview [task|goal|challenge]</code></td><td>Sends the player a mock advancement message built from their current config.</td></tr>
 </tbody>
 </table>
 </div>
-<div class="callout"><span class="callout-title">Automatic update checks</span><p>The plugin also checks Modrinth for a newer version once automatically on startup, and messages any player with <code>customadvancementmessages.updatenotify</code> (see <a href="../permissions/">Permissions</a>) who joins afterward if that check found a newer version.</p></div>
+<div class="callout"><span class="callout-title">Automatic update checks</span><p>The plugin also checks Modrinth for a newer version once automatically on startup, and messages any player that joins with the permission <code>customadvancementmessages.updatenotify</code> if there is a new version available.</p></div>
 
 <h2 id="preview">preview</h2>
 <p><code>/advancements preview [task|goal|challenge]</code>. Sends a fake advancement message to yourself only (nothing is sent to anyone else, and no real advancement progress is granted) built with your exact <code>config.yml</code> settings. If no type is given, it defaults to <code>task</code>.</p>
