@@ -44,7 +44,7 @@
       CustomAdvancementMessages
     </a>
 
-    <span class="version-badge">v1.0.0</span>
+    <span class="version-badge">v1.0.1</span>
 
     <div class="topbar-links">
       <a class="icon-link" href="https://modrinth.com/plugin/customadvancementmessages" target="_blank" rel="noopener">
@@ -94,8 +94,8 @@
 <h2 class="no-rule">Plugin won't enable</h2>
 <p>Check your console for a message about a missing dependency. <code>PacketEvents</code> is a required dependency &mdash; if it isn't installed and enabled, CustomAdvancementMessages won't start.</p>
 
-<h2>Player names show as plain usernames instead of placeholders</h2>
-<p>Check your console on startup for <code>PlaceholderAPI not found. Placeholder support disabled.</code> If you see that line, install PlaceholderAPI. Also make sure to install any expansions the placeholder needs (e.g., the LuckPerms expansion for <code>%luckperms_prefix%</code>). You can confirm a placeholder resolves correctly on its own with <code>/papi parse &lt;username&gt; &lt;placeholder&gt;</code> in-game.</p>
+<h2>Placeholders show up as literal text</h2>
+<p>PlaceholderAPI is a required dependency, so the plugin won't enable at all without it &mdash; if that's the problem you'll see it fail to start, per the section above. If the plugin is running fine but one specific placeholder just isn't resolving, it's usually a missing expansion for that placeholder (e.g., the LuckPerms expansion for <code>%luckperms_prefix%</code>). Confirm PlaceholderAPI itself can resolve it with <code>/papi parse &lt;username&gt; &lt;placeholder&gt;</code> in-game. The built-in <code>{player}</code> placeholder always resolves regardless of PlaceholderAPI.</p>
 
 <h2>Advancement messages aren't being rewritten at all</h2>
 <ul>
@@ -108,7 +108,7 @@
 
       <div class="prev-next"><a class="pn-link pn-prev" href="../permissions/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Permissions</div></a><a class="pn-link pn-next" href="../changelog/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Changelog</div></a></div>
       <footer class="page-footer">
-        <span>CustomAdvancementMessages v1.0.0 &middot; by <a href="../../">AFXPlugins</a></span>
+        <span>CustomAdvancementMessages v1.0.1 &middot; by <a href="../../">AFXPlugins</a></span>
         <span><a href="https://github.com/AFXPlugins/CustomAdvancementMessages" target="_blank" rel="noopener">Source on GitHub</a></span>
       </footer>
     </div>

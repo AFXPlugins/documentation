@@ -44,7 +44,7 @@
       CustomAdvancementMessages
     </a>
 
-    <span class="version-badge">v1.0.0</span>
+    <span class="version-badge">v1.0.1</span>
 
     <div class="topbar-links">
       <a class="icon-link" href="https://modrinth.com/plugin/customadvancementmessages" target="_blank" rel="noopener">
@@ -99,8 +99,8 @@
 
 
 <h2 class="no-rule">Player name placeholders</h2>
-<p>Any PlaceholderAPI placeholder can be used in <code>player-name-format</code>.</p>
-<p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for in-depth info on using them. Without PlaceholderAPI installed and enabled, <code>player-name-format</code> is ignored entirely and the player's plain username is used instead.</p>
+<p>Any PlaceholderAPI placeholder can be used in <code>player-name-format</code>, alongside the plugin's own built-in <code>{player}</code> placeholder, which always resolves to the player's raw username regardless of PlaceholderAPI. This makes it easy to combine the two, e.g. <code>%luckperms_prefix%{player}</code>.</p>
+<p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for in-depth info on using PlaceholderAPI placeholders. PlaceholderAPI is a required dependency for this plugin, so <code>%placeholder%</code> values are always available.</p>
 <div class="callout"><span class="callout-title">Example Plugin Integration</span><p>One use case for reusing an existing format is with another AFXPlugins plugin, <a href="../../customplayernametags/" target="_blank" rel="noopener">CustomPlayerNametags</a>. Using its <code>%customplayernametags_format%</code> placeholder in <code>player-name-format</code> keeps advancement messages and nametags showing the exact same name, without duplicating the format across two configs.</p></div>
 
 <h2 class="no-rule">Color and style codes</h2>
@@ -126,7 +126,7 @@
 
       <div class="prev-next"><a class="pn-link pn-prev" href="../configuration/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Configuration</div></a><a class="pn-link pn-next" href="../commands/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Commands</div></a></div>
       <footer class="page-footer">
-        <span>CustomAdvancementMessages v1.0.0 &middot; by <a href="../../">AFXPlugins</a></span>
+        <span>CustomAdvancementMessages v1.0.1 &middot; by <a href="../../">AFXPlugins</a></span>
         <span><a href="https://github.com/AFXPlugins/CustomAdvancementMessages" target="_blank" rel="noopener">Source on GitHub</a></span>
       </footer>
     </div>

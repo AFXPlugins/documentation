@@ -8,7 +8,7 @@ OUT = os.path.join(BASE_DIR, "customadvancementmessages")
 
 REPO_URL = "https://github.com/AFXPlugins/CustomAdvancementMessages"
 MODRINTH_URL = "https://modrinth.com/plugin/customadvancementmessages"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 NAV = [
     ("Getting Started", [("index", "Overview"), ("installation", "Installation")]),
@@ -125,10 +125,11 @@ site.page("installation", "Installation", "Getting started",
 # CONFIGURATION
 # =========================================================================
 config_yaml_code = '''<span class="tok-com"># Format for the player name in advancement messages.</span>
-<span class="tok-com"># Supports any PlaceholderAPI placeholder and &#39;&amp;&#39; colors.</span>
-<span class="tok-com"># Default: %player_name%</span>
-<span class="tok-com"># Example: %luckperms_prefix%%essentials_nickname%</span>
-<span class="tok-key">player-name-format:</span> <span class="tok-str">"%player_name%"</span>
+<span class="tok-com"># Supports any PlaceholderAPI placeholder, the built-in &#123;player&#125; placeholder</span>
+<span class="tok-com"># (the player&#39;s username), and &#39;&amp;&#39; colors.</span>
+<span class="tok-com"># Default: {player}</span>
+<span class="tok-com"># Example: %luckperms_prefix%{player}</span>
+<span class="tok-key">player-name-format:</span> <span class="tok-str">"{player}"</span>
 
 <span class="tok-com"># Advancement message formats. Each phrase supports &#39;&amp;&#39; colors.</span>
 <span class="tok-key">messages:</span>
@@ -151,8 +152,7 @@ configuration_content = f'''
 <div class="code-block"><pre><code>{config_yaml_code}</code></pre><button class="copy-btn">copy</button></div>
 
 <h3>player-name-format</h3>
-<p>The format used for a player's name in an advancement message. Supports any PlaceholderAPI placeholder and <code>&amp;</code> colors &mdash; see <a href="../placeholders/">Placeholders &amp; Colors</a> for more information.</p>
-{callout("Falls back safely", "If a placeholder fails to resolve, the plugin falls back to the player's regular username.")}
+<p>The format used for a player's name in an advancement message. Supports any PlaceholderAPI placeholder, the built-in <code>{{player}}</code> placeholder (the player's username), and <code>&amp;</code> colors. See <a href="../placeholders/">Placeholders &amp; Colors</a> for more information.</p>
 
 <h3>messages</h3>
 <p>Individualy customize phrases for rach advancement type: &mdash; <code>task</code>, <code>goal</code>, and <code>challenge</code>.</p>
@@ -195,9 +195,8 @@ placeholders_content = f'''
 {doc_image(PREVIEW_IMG, "Preview of a customized advancement message.")}
 
 <h2 class="no-rule">Player name placeholders</h2>
-<p>Any PlaceholderAPI placeholder can be used in <code>player-name-format</code>.</p>
-<p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for in-depth info on using them. Without PlaceholderAPI installed and enabled, <code>player-name-format</code> is ignored entirely and the player's plain username is used instead.</p>
-{callout("Example Plugin Integration", 'One use case for reusing an existing format is with another AFXPlugins plugin, <a href="../../customplayernametags/" target="_blank" rel="noopener">CustomPlayerNametags</a>. Using its <code>%customplayernametags_format%</code> placeholder in <code>player-name-format</code> keeps advancement messages and nametags showing the exact same name, without duplicating the format across two configs.')}
+<p>Any PlaceholderAPI placeholder can be used in <code>player-name-format</code>, alongside the plugin's own built-in <code>{{player}}</code> placeholder, which always resolves to the player's username.</p>
+<p>See the <a href="https://wiki.placeholderapi.com/users/using-placeholders/" target="_blank" rel="noopener">PlaceholderAPI placeholder guide</a> for in-depth info on using PlaceholderAPI placeholders.</p>
 
 <h2 class="no-rule">Color and style codes</h2>
 <p>Any <code>phrase</code> in <code>config.yml</code> supports all Minecraft <code>&amp;</code> color and style codes:</p>
@@ -230,7 +229,7 @@ site.page("placeholders", "Placeholders & Colors", "Guide",
 # =========================================================================
 commands_content = f'''
 <h1>Commands</h1>
-<p class="lede">All CustomAdvancementMessages commands are under <code>/advancements</code> (alias <code>/customadvancementmessages</code>). All commands require the admin permission &mdash; see <a href="../permissions/">Permissions</a>.</p>
+<p class="lede">All CustomAdvancementMessages commands are under <code>/advancements</code> (alias <code>/customadvancementmessages</code>). All commands require the <a href="../permissions/">admin permission</a>.</p>
 
 <h2 class="no-rule">Top level</h2>
 <div class="table-wrap">
@@ -239,11 +238,11 @@ commands_content = f'''
 <tbody>
 <tr><td><code>/advancements reload</code></td><td>Reloads config.yml and applies changes.</td></tr>
 <tr><td><code>/advancements update</code></td><td>Runs a fresh check against the plugin's Modrinth project and reports whether a newer <em>release</em>-type version is available. Pre-release/beta versions are ignored.</td></tr>
-<tr><td><code>/advancements preview [task|goal|challenge]</code></td><td>Sends <em>you</em> a mock advancement message built from your current config &mdash; see below.</td></tr>
+<tr><td><code>/advancements preview [task|goal|challenge]</code></td><td>Sends the player a mock advancement message built from their current config.</td></tr>
 </tbody>
 </table>
 </div>
-{callout("Automatic update checks", "The plugin also checks Modrinth for a newer version once automatically on startup, and messages any OP who joins afterward if that check found a newer version.")}
+{callout("Automatic update checks", 'The plugin also checks Modrinth for a newer version once automatically on startup, and messages any player that joins with the permission <code>customadvancementmessages.updatenotify</code> if there is a new version available.')}
 
 <h2 id="preview">preview</h2>
 <p><code>/advancements preview [task|goal|challenge]</code>. Sends a fake advancement message to yourself only (nothing is sent to anyone else, and no real advancement progress is granted) built with your exact <code>config.yml</code> settings. If no type is given, it defaults to <code>task</code>.</p>
@@ -270,13 +269,14 @@ site.page("commands", "Commands", "Reference",
 # =========================================================================
 permissions_content = f'''
 <h1>Permissions</h1>
-<p class="lede">CustomAdvancementMessages uses a single permission for all commands.</p>
+<p class="lede">CustomAdvancementMessages uses two permissions.</p>
 
 <div class="table-wrap">
 <table>
 <thead><tr><th>Node</th><th>Default</th><th>Grants</th></tr></thead>
 <tbody>
-<tr><td><code>customadvancementmessages.admin</code></td><td><span class="tag op">op</span></td><td>Access to all <code>/advancements</code> subcommands, and receiving the join-time notice when an update is available.</td></tr>
+<tr><td><code>customadvancementmessages.admin</code></td><td><span class="tag op">op</span></td><td>Access to all <code>/advancements</code> subcommands.</td></tr>
+<tr><td><code>customadvancementmessages.updatenotify</code></td><td><span class="tag op">op</span></td><td>Receive a message on join when a plugin update is available.</td></tr>
 </tbody>
 </table>
 </div>
@@ -295,18 +295,15 @@ troubleshooting_content = f'''
 <p class="lede">Common issues and how to fix them.</p>
 
 <h2 class="no-rule">Plugin won't enable</h2>
-<p>Check your console for a message about a missing dependency. <code>PacketEvents</code> is a required dependency &mdash; if it isn't installed and enabled, CustomAdvancementMessages won't start.</p>
+<li>Make sure the latest versions of <code>PacketEvents</code> and <code>PacketEvents</code> are installed. They are both required dependencies, and CustomAdvancementMessages won't start without them.</li>
 
-<h2>Player names show as plain usernames instead of placeholders</h2>
-<p>Check your console on startup for <code>PlaceholderAPI not found. Placeholder support disabled.</code> If you see that line, install PlaceholderAPI. Also make sure to install any expansions the placeholder needs (e.g., the LuckPerms expansion for <code>%luckperms_prefix%</code>). You can confirm a placeholder resolves correctly on its own with <code>/papi parse &lt;username&gt; &lt;placeholder&gt;</code> in-game.</p>
-
-<h2>Advancement messages aren't being rewritten at all</h2>
-<ul>
-<li>Confirm PacketEvents is actually enabled (not just installed) &mdash; check its own console output on startup.</li>
-<li>Try <a href="../commands/#preview"><code>/advancements preview</code></a> to test if that works properly.</li>
-</ul>
+<h2>Placeholders show up as literal text</h2>
+<li>Confirm that PlaceholderAPI itself can resolve the placeholder with <code>/papi parse &lt;username&gt; &lt;placeholder&gt;</code>.</li>
+<li>Make sure any PlaceholderAPI expansions for the placeholder are installed (e.g., the LuckPerms expansion for <code>%luckperms_prefix%</code>). Download expansions with <code>/papi ecloud download &lt;expansion&gt;</code>.</li>
+<br>
+<br>
 <hr>
-{callout("Still stuck?", f'Submit an <a href="{REPO_URL}/issues" target="_blank" rel="noopener">issue</a> on the CustomAdvancementMessages GitHub repository and include details about the problem and how to reproduce it.')}
+{callout("Still stuck?", f'Submit an <a href="{REPO_URL}/issues" target="_blank" rel="noopener">issue</a> on the CustomAdvancementMessages GitHub repository and include any console errors, details about the problem, and how to reproduce it.')}
 
 '''
 site.page("troubleshooting", "Troubleshooting", "Resource",
@@ -322,6 +319,16 @@ changelog_content = f'''
 <p class="lede">Notable changes to CustomAdvancementMessages, newest first.</p>
 
 <div class="changelog">
+
+<div class="changelog-entry">
+<div class="changelog-heading"><span class="changelog-version">1.0.1</span></div>
+<ul>
+<li><strong>New:</strong> Added support for more Minecraft versions (1.20 and newer).</li>
+<li><strong>New:</strong> Built-in <code>{{player}}</code> placeholder for <code>player-name-format</code>, which will return the player's username.</li>
+<li><strong>New:</strong> <code>customadvancementmessages.updatenotify</code> permission for who gets notified when an update is available.</li>
+<li><strong>Changed:</strong> PlaceholderAPI is now a required dependency and won't enable without it.</li>
+</ul>
+</div>
 
 <div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.0</span></div>
