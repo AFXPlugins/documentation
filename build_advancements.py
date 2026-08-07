@@ -324,9 +324,9 @@ changelog_content = f'''
 <div class="changelog-heading"><span class="changelog-version">1.0.1</span></div>
 <ul>
 <li><strong>New:</strong> Added support for more Minecraft versions (1.20 and newer).</li>
-<li><strong>New:</strong> Built-in <code>{{player}}</code> placeholder for <code>player-name-format</code>, which will return the player's username.</li>
-<li><strong>New:</strong> <code>customadvancementmessages.updatenotify</code> permission for who gets notified when an update is available.</li>
-<li><strong>Changed:</strong> PlaceholderAPI is now a required dependency and won't enable without it.</li>
+<li><strong>New:</strong> Built-in <code>{{player}}</code> placeholder for <code>player-name-format</code>, which returns the player's username.</li>
+<li><strong>New:</strong> <code>customadvancementmessages.updatenotify</code> permission that controls who gets notified when an update is available.</li>
+<li><strong>Changed:</strong> PlaceholderAPI is now a required dependency and the plugin won't enable without it.</li>
 </ul>
 </div>
 
