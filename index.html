@@ -66,7 +66,7 @@
 <h2 class="no-rule">Plugins</h2>
 <div class="plugin-grid">
 
-<a class="plugin-card" href="customplayernametags/" data-unpublished="true" onclick="return showUnpublishedNotice(event)">
+<a class="plugin-card" href="customplayernametags/">
   <div class="plugin-card-top">
     <img class="plugin-card-icon" src="assets/img/logo-nametags.png" alt="CustomPlayerNametags logo">
     <div class="plugin-card-heading">
@@ -95,30 +95,6 @@
 
 <h2>About AFXPlugins</h2>
 <p>I own a small Minecraft server for me and my friends and I make plugins to improve the gameplay experience. I created AFXPlugins in order to share these creations with others so they too can benefit from them.</p>
-
-<div id="unpublished-modal" class="unpublished-overlay" hidden>
-  <div class="unpublished-box" role="dialog" aria-modal="true" aria-labelledby="unpublished-title">
-    <p id="unpublished-title">Still waiting for Modrinth to approve this plugin. Check back later.</p>
-    <button type="button" class="unpublished-close" onclick="closeUnpublishedNotice()">OK</button>
-  </div>
-</div>
-
-<script>
-function showUnpublishedNotice(e) {
-  e.preventDefault();
-  document.getElementById('unpublished-modal').hidden = false;
-  return false;
-}
-function closeUnpublishedNotice() {
-  document.getElementById('unpublished-modal').hidden = true;
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeUnpublishedNotice();
-});
-document.getElementById('unpublished-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeUnpublishedNotice();
-});
-</script>
 
 <div class="home-footer-note">
   Thanks for stopping by!
