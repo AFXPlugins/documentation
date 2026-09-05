@@ -8,7 +8,7 @@ OUT = os.path.join(BASE_DIR, "customplayernametags")
 
 REPO_URL = "https://github.com/AFXPlugins/CustomPlayerNametags"
 MODRINTH_URL = "https://modrinth.com/plugin/customplayernametags"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 NAV = [
     ("Getting Started", [("index", "Overview"), ("installation", "Installation")]),
@@ -469,6 +469,15 @@ changelog_content = f'''
 <p class="lede">Notable changes to CustomPlayerNametags, newest first.</p>
 
 <div class="changelog">
+
+<div class="changelog-entry">
+<div class="changelog-heading"><span class="changelog-version">1.0.1</span></div>
+<ul>
+<li><strong>New:</strong> Added support for more Minecraft versions (1.20 and newer).</li>
+<li><strong>New:</strong> Built-in <code>{{player}}</code> placeholder for <code>player-name-format</code>, which returns the player's username.</li>
+<li><strong>New:</strong> <code>customplayernametags.updatenotify</code> permission that controls who gets notified when an update is available.</li>
+</ul>
+</div>
 
 <div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.0</span></div>
