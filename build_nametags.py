@@ -8,7 +8,7 @@ OUT = os.path.join(BASE_DIR, "customplayernametags")
 
 REPO_URL = "https://github.com/AFXPlugins/CustomPlayerNametags"
 MODRINTH_URL = "https://modrinth.com/plugin/customplayernametags"
-VERSION = "1.0.1"
+VERSION = "1.1.0"
 
 NAV = [
     ("Getting Started", [("index", "Overview"), ("installation", "Installation")]),
@@ -130,100 +130,133 @@ site.page("installation", "Installation", "Getting started",
 # =========================================================================
 # CONFIGURATION
 # =========================================================================
-config_yaml_code = '''<span class="tok-com"># Global format used for all player nametags.</span>
-<span class="tok-com"># Supports PlaceholderAPI placeholders and &#39;&amp;&#39; colors.</span>
-<span class="tok-com"># Use \\n in the format to start a new line.</span>
-<span class="tok-com"># Default: %player_name%</span>
-<span class="tok-key">nametag-format:</span> <span class="tok-str">"%player_name%"</span>
-
-<span class="tok-com"># NONE | AUTO | MANUAL &mdash; see below</span>
-<span class="tok-key">nametag-dismount-mode:</span> AUTO
-
-<span class="tok-com"># MANUAL mode only. Commands (no leading slash) that dismount the tag.</span>
-<span class="tok-key">dismount-commands:</span>
-  - examplecommand1
-  - examplecommand2
-
-<span class="tok-com"># How long (in ticks) the tag stays dismounted. Default: 5</span>
-<span class="tok-key">dismount-duration-ticks:</span> 5
-
-<span class="tok-com"># Maximum render distance for nametags. Default: 64 (vanilla&#39;s own value)</span>
+config_yaml_code = '''<span class="tok-com"># Global format used for all player nametags.</span> 
+<span class="tok-com"># Supports PlaceholderAPI placeholders and &#39;&amp;&#39; colors.</span> 
+<span class="tok-com"># Use \\n in the format to start a new line.</span> 
+<span class="tok-com"># Default: %player_name%</span> 
+<span class="tok-key">nametag-format:</span> <span class="tok-str">"%player_name%"</span> 
+ 
+<span class="tok-com"># NONE | AUTO | MANUAL &mdash; see below</span> 
+<span class="tok-key">nametag-dismount-mode:</span> AUTO 
+ 
+<span class="tok-com"># MANUAL mode only. Commands (no leading slash) that dismount the tag.</span> 
+<span class="tok-key">dismount-commands:</span> 
+  - examplecommand1 
+  - examplecommand2 
+ 
+<span class="tok-com"># How long (in ticks) the tag stays dismounted. Default: 5</span> 
+<span class="tok-key">dismount-duration-ticks:</span> 5 
+ 
+<span class="tok-com"># Maximum render distance for nametags. Default: 64 (vanilla&#39;s own value)</span> 
 <span class="tok-key">nametag-render-distance:</span> 64
-'''
 
-configuration_content = f'''
-<h1>Configuration</h1>
-<p class="lede">Guide on configuring CustomPlayerNametags.</p>
+<span class="tok-com"># Nametag height correction for all players.</span>
+<span class="tok-key">global-nametag-height-adjust:</span> 0
 
-<h2 class="no-rule">config.yml</h2>
-<p>Reload any change with <a href="../commands/"><code>/nametags reload</code></a>.</p>
-<div class="code-block"><pre><code>{config_yaml_code}</code></pre><button class="copy-btn">copy</button></div>
+<span class="tok-com"># Extra height correction for nametags rendered through Bedrock players.</span>
+<span class="tok-key">bedrock-height-adjust:</span> 0
 
-<h3>nametag-format</h3>
-<p>The global format applied to every player who doesn't have a custom individual format. More information is covered on the <a href="../formatting/">Nametag Formats</a> page.</p>
-
-<h3>nametag-dismount-mode</h3>
-<p>The nametag is attached to each player using an invisible passenger entity so it stays fixed above their head. Some teleport commands that move a player between worlds/dimensions can fail while that passenger is still attached. This setting controls the feature that temporarily detaches and reattaches the nametag to solve this issue.</p>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Mode</th><th>Behavior</th></tr></thead>
-<tbody>
-<tr><td><code>NONE</code></td><td>Never automatically dismounts the nametag.</td></tr>
-<tr><td><code>AUTO</code> <em>(default)</em></td><td>Dismounts the nametag on every command the player runs.</td></tr>
-<tr><td><code>MANUAL</code></td><td>Only dismounts the nametag when the command matches an entry in <code>dismount-commands</code>.</td></tr>
-</tbody>
-</table>
-</div>
-{callout("Direct teleport handling", "Regardless of mode (as long as it isn't <code>NONE</code>), the plugin also dismounts on any <code>PlayerTeleportEvent</code> &mdash; nether/end portals, and other plugins calling the teleport API directly &mdash; not just typed commands. The tag remounts automatically the moment the world change actually happens, or when <code>dismount-duration-ticks</code> expires, whichever comes first.")}
-<p>Picking a mode:</p>
-<ul>
-<li>No world-management plugin? Use <code>NONE</code>.</li>
-<li>Using Multiverse-Core? Use <code>NONE</code> here, and set <code>passenger-mode</code> to <code>dismount_passengers</code> in Multiverse-Core's own config.</li>
-<li>Using a different world/teleport plugin? Use <code>MANUAL</code> and list its teleport commands in <code>dismount-commands</code>.</li>
-<li>Using Skript? Run <code>/nametags dismount &lt;player&gt;</code> from console before a cross-world teleport &mdash; see the <a href="../commands/#dismount">dismount command</a>.</li>
-</ul>
-{callout("AUTO", "It is recommended to not leave <code>nametag-dismount-mode</code> as <code>AUTO</code> because of minor visual bugs that can occur on commands that don't involve world changes.")}
-
-<h3>dismount-commands</h3>
-<p><code>MANUAL</code> mode only. One command per line, no leading slash.</p>
-
-<h3>dismount-duration-ticks</h3>
-<p>How long (in ticks) a dismounted nametag stays detached before automatically remounting. Defaults at <code>5</code> ticks. You generally shouldn't need to raise this. <code>2</code> ticks is the lowest value that will work, so the value is set to <code>1</code> or lower, the plugin falls back to <code>2</code> ticks internally.</p>
-
-<h3>nametag-render-distance</h3>
+<span class="tok-com"># Extra sneak correction for nametags rendered through Bedrock players.</span>
+<span class="tok-key">bedrock-sneak-height-adjust:</span> 0
+''' 
+ 
+configuration_content = f''' 
+<h1>Configuration</h1> 
+<p class="lede">Guide on configuring CustomPlayerNametags.</p> 
+ 
+<h2 class="no-rule">config.yml</h2> 
+<p>Reload any change with <a href="../commands/"><code>/nametags reload</code></a>.</p> 
+<div class="code-block"><pre><code>{config_yaml_code}</code></pre><button class="copy-btn">copy</button></div> 
+ 
+<h3>nametag-format</h3> 
+<p>The global format applied to every player who doesn't have a custom individual format. More information is covered on the <a href="../formatting/">Nametag Formats</a> page.</p> 
+ 
+<h3>nametag-dismount-mode</h3> 
+<p>The nametag is attached to each player using an invisible passenger entity so it stays fixed above their head. Some teleport commands that move a player between worlds/dimensions can fail while that passenger is still attached. This setting controls the feature that temporarily detaches and reattaches the nametag to solve this issue.</p> 
+<div class="table-wrap"> 
+<table> 
+<thead><tr><th>Mode</th><th>Behavior</th></tr></thead> 
+<tbody> 
+<tr><td><code>NONE</code></td><td>Never automatically dismounts the nametag.</td></tr> 
+<tr><td><code>AUTO</code> <em>(default)</em></td><td>Dismounts the nametag on every command the player runs.</td></tr> 
+<tr><td><code>MANUAL</code></td><td>Only dismounts the nametag when the command matches an entry in <code>dismount-commands</code>.</td></tr> 
+</tbody> 
+</table> 
+</div> 
+{callout("Direct teleport handling", "Regardless of mode (as long as it isn't <code>NONE</code>), the plugin also dismounts on any <code>PlayerTeleportEvent</code> &mdash; nether/end portals, and other plugins calling the teleport API directly &mdash; not just typed commands. The tag remounts automatically the moment the world change actually happens, or when <code>dismount-duration-ticks</code> expires, whichever comes first.")} 
+<p>Picking a mode:</p> 
+<ul> 
+<li>No world-management plugin? Use <code>NONE</code>.</li> 
+<li>Using Multiverse-Core? Use <code>NONE</code> here, and set <code>passenger-mode</code> to <code>dismount_passengers</code> in Multiverse-Core's own config.</li> 
+<li>Using a different world/teleport plugin? Use <code>MANUAL</code> and list its teleport commands in <code>dismount-commands</code>.</li> 
+<li>Using Skript? Run <code>/nametags dismount &lt;player&gt;</code> from console before a cross-world teleport &mdash; see the <a href="../commands/#dismount">dismount command</a>.</li> 
+</ul> 
+{callout("AUTO", "It is recommended to not leave <code>nametag-dismount-mode</code> as <code>AUTO</code> because of minor visual bugs that can occur on commands that don't involve world changes.")} 
+ 
+<h3>dismount-commands</h3> 
+<p><code>MANUAL</code> mode only. One command per line, no leading slash.</p> 
+ 
+<h3>dismount-duration-ticks</h3> 
+<p>How long (in ticks) a dismounted nametag stays detached before automatically remounting. Defaults at <code>5</code> ticks. You generally shouldn't need to raise this. <code>2</code> ticks is the lowest value that will work, so if the value is set to <code>1</code> or lower, the plugin falls back to <code>2</code> ticks internally.</p> 
+ 
+<h3>nametag-render-distance</h3> 
 <p>Maximum distance (in blocks) at which the nametag renders for other players. Defaults to <code>64</code>, matching vanilla's own fixed nametag cutoff regardless of your server's entity-tracking-range settings.</p>
 
-{callout("plugin-version", "config.yml also contains a <code>plugin-version</code> key used internally to migrate the file across updates. Leave it as-is.")}
-<hr>
-<br>
-{callout("Extra Plugin Files", "The following sections describe the other two files generated by the plugin. These files don't need to be edited manually, but feel free to read how they work!" )}
-<h2>messages.yml</h2>
-<p>Contains all messages used by the plugin.</p>
+<h2 id="fine-tune">Fine-Tuning Nametag Positions</h2>
+<p>These settings allow you to fine-tune nametag height in blocks.</p>
+
 <div class="table-wrap">
 <table>
-<thead><tr><th>Key</th><th>Sent when...</th></tr></thead>
+<thead><tr><th>Setting</th><th>Purpose</th></tr></thead>
 <tbody>
-<tr><td><code>no-permission</code></td><td>Sender lacks the admin permission.</td></tr>
-<tr><td><code>reload-success</code></td><td><code>/nametags reload</code> completes.</td></tr>
-<tr><td><code>player-not-found</code></td><td>A named target player isn't online.</td></tr>
-<tr><td><code>console-only</code></td><td>A player tries a console-only subcommand.</td></tr>
-<tr><td><code>dismount-usage</code></td><td>The <code>dismount</code> console command is used incorrectly.</td></tr>
-<tr><td><code>update-checking</code> / <code>update-check-failed</code> / <code>update-available</code> / <code>update-up-to-date</code></td><td><code>/nametags update</code> is run.</td></tr>
-<tr><td><code>op-update-notice</code></td><td>An OP joins while an update is available.</td></tr>
-<tr><td><code>format-view-*</code>, <code>format-set-*</code>, <code>format-reset-*</code></td><td>A <code>/nametags format</code> command is run.</td></tr>
-<tr><td><code>usage-top-level</code>, <code>usage-format</code>, <code>usage-format-view</code>, <code>usage-format-set</code>, <code>usage-format-reset</code></td><td>A command is run with missing or invalid arguments.</td></tr>
+<tr><td><code>global-nametag-height-adjust</code></td><td>Adjusts the height of all nametags.</td></tr>
+<tr><td><code>bedrock-height-adjust</code></td><td>Adds an extra height adjustment for nametags rendered through Bedrock players.</td></tr>
+<tr><td><code>bedrock-sneak-height-adjust</code></td><td>Adds an extra adjustment for Bedrock-rendered nametags while sneaking.</td></tr>
 </tbody>
 </table>
 </div>
+{callout("Recommended adjustments", "When fine-tuning the position, start with small changes of <code>&plusmn;0.1</code> blocks. This makes it easier to find the correct position without moving the nametag too far at once.")}
+<p>Positive values move the nametag higher, while negative values move it lower. The adjustments are cumulative.</p>
 
-<h2>player-formats.yml</h2>
-<p>Stores each individual player nametag formats keyed by player UUID.</p>
-{code("yaml", '''formats:
-  069a79f4-44e9-4726-a5be-fca90e38aaf5: '&f%player_name%'
-  ec561538-f3fd-461d-aff5-086b6a97e6f8: '%luckperms_prefix%%player_name%' ''')}
-'''
-site.page("configuration", "Configuration", "Guide",
-          "Guide on configuring CustomPlayerNametags..",
+<p>For example:</p>
+
+{code("yaml", '''global-nametag-height-adjust: 0.1
+bedrock-height-adjust: -0.2
+bedrock-sneak-height-adjust: -0.1''')}
+
+<p>This moves all nametags up <code>0.1</code> blocks, applies an additional <code>-0.2</code> blocks to Bedrock-rendered nametags, and an additional <code>-0.1</code> blocks while sneaking.</p>
+<hr> 
+{callout("Plugin version", "config.yml also contains a <code>plugin-version</code> key used internally to migrate the file across updates. Leave it as-is.")} 
+<hr> 
+<br> 
+{callout("Extra Plugin Files", "The following sections describe the other two files generated by the plugin. These files don't need to be edited manually, but feel free to read how they work!" )} 
+<h2>messages.yml</h2> 
+<p>Contains all messages used by the plugin.</p> 
+<div class="table-wrap"> 
+<table> 
+<thead><tr><th>Key</th><th>Sent when...</th></tr></thead> 
+<tbody> 
+<tr><td><code>no-permission</code></td><td>Sender lacks the admin permission.</td></tr> 
+<tr><td><code>reload-success</code></td><td><code>/nametags reload</code> completes.</td></tr> 
+<tr><td><code>player-not-found</code></td><td>A named target player isn't online.</td></tr> 
+<tr><td><code>console-only</code></td><td>A player tries a console-only subcommand.</td></tr> 
+<tr><td><code>dismount-usage</code></td><td>The <code>dismount</code> console command is used incorrectly.</td></tr> 
+<tr><td><code>update-checking</code> / <code>update-check-failed</code> / <code>update-available</code> / <code>update-up-to-date</code></td><td><code>/nametags update</code> is run.</td></tr> 
+<tr><td><code>op-update-notice</code></td><td>An OP joins while an update is available.</td></tr> 
+<tr><td><code>format-view-*</code>, <code>format-set-*</code>, <code>format-reset-*</code></td><td>A <code>/nametags format</code> command is run.</td></tr> 
+<tr><td><code>usage-top-level</code>, <code>usage-format</code>, <code>usage-format-view</code>, <code>usage-format-set</code>, <code>usage-format-reset</code></td><td>A command is run with missing or invalid arguments.</td></tr> 
+</tbody> 
+</table> 
+</div> 
+ 
+<h2>player-formats.yml</h2> 
+<p>Stores each individual player nametag formats keyed by player UUID.</p> 
+{code("yaml", '''formats: 
+  069a79f4-44e9-4726-a5be-fca90e38aaf5: '&f%player_name%' 
+  ec561538-f3fd-461d-aff5-086b6a97e6f8: '%luckperms_prefix%%player_name%' ''')} 
+''' 
+site.page("configuration", "Configuration", "Guide", 
+          "Guide on configuring CustomPlayerNametags..", 
           configuration_content, prev=("formatting", "Nametag Formats"), nxt=("commands", "Commands"))
 
 
@@ -305,13 +338,14 @@ site.page("commands", "Commands", "Reference",
 # =========================================================================
 permissions_content = f'''
 <h1>Permissions</h1>
-<p class="lede">CustomPlayerNametags uses a single permission for all commands.</p>
+<p class="lede">CustomPlayerNametags uses a two permissions.</p>
 
 <div class="table-wrap">
 <table>
 <thead><tr><th>Node</th><th>Default</th><th>Grants</th></tr></thead>
 <tbody>
 <tr><td><code>customplayernametags.admin</code></td><td><span class="tag op">op</span></td><td>Access to all <code>/nametags</code> subcommands.</td></tr>
+<tr><td><code>customplayernametags.updatenotify</code></td><td><span class="tag op">op</span></td><td>Receive a message on join when a plugin update is available.</td></tr>
 </tbody>
 </table>
 </div>
@@ -433,7 +467,7 @@ site.page("cross-play", "Bedrock & Cross-Play", "Resource",
 # =========================================================================
 troubleshooting_content = f'''
 <h1>Troubleshooting</h1>
-<p class="lede">Common issues and how to fix them.</p>
+<p class="lede">Potential issues and how to fix them.</p>
 
 <h2 class="no-rule">Plugin won't enable</h2>
 <p>Check your console for a message about a missing dependency. <code>PacketEvents</code> is a required dependency &mdash; if it isn't installed and enabled, CustomPlayerNametags won't start.</p>
@@ -444,8 +478,17 @@ troubleshooting_content = f'''
 <h2>Cross-world teleportation not working</h2>
 <p>The tag is a passenger entity, and cross-world/dimension teleport commands can fail while it's still attached. This is exactly what <code>nametag-dismount-mode</code> exists to solve &mdash; see the full explanation on the <a href="../configuration/">Configuration</a> page.</p>
 
-<h2>Tag height looks slightly off for Bedrock players</h2>
-<p>Confirm Floodgate is installed and enabled &mdash; that's how the plugin tells Bedrock viewers apart from Java ones. See <a href="../cross-play/">Bedrock &amp; Cross-Play</a>.</p>
+<h2>Nametags appear too high or too low</h2>
+<p>Adjust <code>global-nametag-height-adjust</code> until the heights are in the desired position.</p>
+<p><a href="../configuration/#fine-tune">How to fine-tune nametag height</a></p>
+
+<h2>Java and Bedrock nametag heights don't match</h2>
+<p>Adjust <code>bedrock-height-adjust</code> until the heights match.</p>
+<p><a href="../configuration/#fine-tune">How to fine-tune nametag height</a></p>
+
+<h2>Nametags go too low when a Bedrock player views someone crouching</h2>
+<p>Adjust <code>bedrock-sneak-height-adjust</code> until the height looks correct.</p>
+<p><a href="../configuration/#fine-tune">How to fine-tune nametag height</a></p>
 
 <h2>Nametag not visible</h2>
 <ul>
@@ -471,18 +514,27 @@ changelog_content = f'''
 <div class="changelog">
 
 <div class="changelog-entry">
+<div class="changelog-heading"><span class="changelog-version">1.1.0</span></div>
+<ul>
+<li> Fixed a bug that caused nametags rendered by bedrock players to appear way too high.</li>
+<li> Added config options for fine-tuning nametag position.</li>
+<li> Made many performance improvements.</li>
+</ul>
+</div>
+
+<div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.1</span></div>
 <ul>
-<li><strong>New:</strong> Added support for more Minecraft versions (1.20 and newer).</li>
-<li><strong>New:</strong> Built-in <code>{{player}}</code> placeholder for <code>player-name-format</code>, which returns the player's username.</li>
-<li><strong>New:</strong> <code>customplayernametags.updatenotify</code> permission that controls who gets notified when an update is available.</li>
+<li>Added support for more Minecraft versions (1.20 and newer).</li>
+<li>Built-in <code>{{player}}</code> placeholder for <code>player-name-format</code>, which returns the player's username.</li>
+<li><code>customplayernametags.updatenotify</code> permission that controls who gets notified when an update is available.</li>
 </ul>
 </div>
 
 <div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.0</span></div>
 <ul>
-<li><strong>New:</strong> initial release.</li>
+<li>Initial release.</li>
 </ul>
 </div>
 

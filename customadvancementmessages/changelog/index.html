@@ -9,13 +9,16 @@
 (function(){
   try {
     var t = localStorage.getItem('afxplugins-theme');
-    if (t === 'light' || t === 'dark') {
-      document.documentElement.setAttribute('data-theme', t);
+
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark';
     }
-    document.documentElement.setAttribute(
-      'data-toggle-state',
-      t === 'light' ? 'light' : 'dark'
-    );
+
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-toggle-state', t);
   } catch(e) {}
 })();
 </script>
@@ -27,7 +30,7 @@
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-<header class="topbar">
+<header class="topbar topbar-doc">
   <div class="topbar-inner">
     <button class="menu-btn" aria-label="Toggle navigation">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -41,10 +44,10 @@
 
     <a class="brand" href="../">
       <img class="brand-mark" src="../assets/img/logo-advancements.png" alt="CustomAdvancementMessages logo">
-      CustomAdvancementMessages
+      <span class="brand-label">CustomAdvancementMessages</span>
     </a>
 
-    <span class="version-badge">v1.0.1</span>
+    <span class="version-badge">v1.0.2</span>
 
     <div class="topbar-links">
       <a class="icon-link" href="https://modrinth.com/plugin/customadvancementmessages" target="_blank" rel="noopener">
@@ -94,19 +97,26 @@
 <div class="changelog">
 
 <div class="changelog-entry">
+<div class="changelog-heading"><span class="changelog-version">1.0.2</span></div>
+<ul>
+<li>Made performance improvements.</li>
+</ul>
+</div>
+
+<div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.1</span></div>
 <ul>
-<li><strong>New:</strong> Added support for more Minecraft versions (1.20 and newer).</li>
-<li><strong>New:</strong> Built-in <code>{player}</code> placeholder for <code>player-name-format</code>, which returns the player's username.</li>
-<li><strong>New:</strong> <code>customadvancementmessages.updatenotify</code> permission that controls who gets notified when an update is available.</li>
-<li><strong>Changed:</strong> PlaceholderAPI is now a required dependency and the plugin won't enable without it.</li>
+<li>Added support for more Minecraft versions (1.20 and newer).</li>
+<li>Built-in <code>{player}</code> placeholder for <code>player-name-format</code>, which returns the player's username.</li>
+<li><code>customadvancementmessages.updatenotify</code> permission that controls who gets notified when an update is available.</li>
+<li>PlaceholderAPI is now a required dependency and the plugin won't enable without it.</li>
 </ul>
 </div>
 
 <div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.0</span></div>
 <ul>
-<li><strong>New:</strong> initial release.</li>
+<li>Initial release.</li>
 </ul>
 </div>
 
@@ -114,7 +124,7 @@
 
       <div class="prev-next"><a class="pn-link pn-prev" href="../troubleshooting/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Troubleshooting</div></a><div></div></div>
       <footer class="page-footer">
-        <span>CustomAdvancementMessages v1.0.1 &middot; by <a href="../../">AFXPlugins</a></span>
+        <span>CustomAdvancementMessages v1.0.2 &middot; by <a href="../../">AFXPlugins</a></span>
         <span><a href="https://github.com/AFXPlugins/CustomAdvancementMessages" target="_blank" rel="noopener">Source on GitHub</a></span>
       </footer>
     </div>

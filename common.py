@@ -1,14 +1,3 @@
-"""
-Shared static-site-generator helpers used by build_nametags.py and
-build_advancements.py.
-
-Reconstructed to match the previously-generated output byte-for-byte
-(head boilerplate, topbar, sidebar nav, prev/next, footer, callout/code/
-doc_image markup) — this file was missing from the uploaded project, so
-if you spot a mismatch against the checked-in HTML under
-customplayernametags/ or customadvancementmessages/, let me know and
-I'll patch it.
-"""
 import os
 import shutil
 import html
@@ -156,13 +145,16 @@ class Site:
 (function(){{
   try {{
     var t = localStorage.getItem('{self.storage_key}');
-    if (t === 'light' || t === 'dark') {{
-      document.documentElement.setAttribute('data-theme', t);
+
+    if (t !== 'light' && t !== 'dark') {{
+      t = window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark';
     }}
-    document.documentElement.setAttribute(
-      'data-toggle-state',
-      t === 'light' ? 'light' : 'dark'
-    );
+
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-toggle-state', t);
   }} catch(e) {{}}
 }})();
 </script>
@@ -171,7 +163,7 @@ class Site:
 <link rel="stylesheet" href="{prefix}assets/style.css">
 </head>
 <body>
-<header class="topbar">
+<header class="topbar topbar-doc">
   <div class="topbar-inner">
     <button class="menu-btn" aria-label="Toggle navigation">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -185,7 +177,7 @@ class Site:
 
     <a class="brand" href="{brand_href}">
       <img class="brand-mark" src="{logo_href}" alt="{self.logo_alt}">
-      {self.site_name}
+      <span class="brand-label">{self.site_name}</span>
     </a>
 
     <span class="version-badge">v{self.version}</span>

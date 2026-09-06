@@ -8,7 +8,7 @@ OUT = os.path.join(BASE_DIR, "customadvancementmessages")
 
 REPO_URL = "https://github.com/AFXPlugins/CustomAdvancementMessages"
 MODRINTH_URL = "https://modrinth.com/plugin/customadvancementmessages"
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 NAV = [
     ("Getting Started", [("index", "Overview"), ("installation", "Installation")]),
@@ -292,7 +292,7 @@ site.page("permissions", "Permissions", "Reference",
 # =========================================================================
 troubleshooting_content = f'''
 <h1>Troubleshooting</h1>
-<p class="lede">Common issues and how to fix them.</p>
+<p class="lede">Potential issues and how to fix them.</p>
 
 <h2 class="no-rule">Plugin won't enable</h2>
 <li>Make sure the latest versions of <code>PacketEvents</code> and <code>PacketEvents</code> are installed. They are both required dependencies, and CustomAdvancementMessages won't start without them.</li>
@@ -321,19 +321,26 @@ changelog_content = f'''
 <div class="changelog">
 
 <div class="changelog-entry">
+<div class="changelog-heading"><span class="changelog-version">1.0.2</span></div>
+<ul>
+<li>Made performance improvements.</li>
+</ul>
+</div>
+
+<div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.1</span></div>
 <ul>
-<li><strong>New:</strong> Added support for more Minecraft versions (1.20 and newer).</li>
-<li><strong>New:</strong> Built-in <code>{{player}}</code> placeholder for <code>player-name-format</code>, which returns the player's username.</li>
-<li><strong>New:</strong> <code>customadvancementmessages.updatenotify</code> permission that controls who gets notified when an update is available.</li>
-<li><strong>Changed:</strong> PlaceholderAPI is now a required dependency and the plugin won't enable without it.</li>
+<li>Added support for more Minecraft versions (1.20 and newer).</li>
+<li>Built-in <code>{{player}}</code> placeholder for <code>player-name-format</code>, which returns the player's username.</li>
+<li><code>customadvancementmessages.updatenotify</code> permission that controls who gets notified when an update is available.</li>
+<li>PlaceholderAPI is now a required dependency and the plugin won't enable without it.</li>
 </ul>
 </div>
 
 <div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.0</span></div>
 <ul>
-<li><strong>New:</strong> initial release.</li>
+<li>Initial release.</li>
 </ul>
 </div>
 

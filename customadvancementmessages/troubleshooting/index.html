@@ -9,13 +9,16 @@
 (function(){
   try {
     var t = localStorage.getItem('afxplugins-theme');
-    if (t === 'light' || t === 'dark') {
-      document.documentElement.setAttribute('data-theme', t);
+
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark';
     }
-    document.documentElement.setAttribute(
-      'data-toggle-state',
-      t === 'light' ? 'light' : 'dark'
-    );
+
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-toggle-state', t);
   } catch(e) {}
 })();
 </script>
@@ -27,7 +30,7 @@
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-<header class="topbar">
+<header class="topbar topbar-doc">
   <div class="topbar-inner">
     <button class="menu-btn" aria-label="Toggle navigation">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -41,10 +44,10 @@
 
     <a class="brand" href="../">
       <img class="brand-mark" src="../assets/img/logo-advancements.png" alt="CustomAdvancementMessages logo">
-      CustomAdvancementMessages
+      <span class="brand-label">CustomAdvancementMessages</span>
     </a>
 
-    <span class="version-badge">v1.0.1</span>
+    <span class="version-badge">v1.0.2</span>
 
     <div class="topbar-links">
       <a class="icon-link" href="https://modrinth.com/plugin/customadvancementmessages" target="_blank" rel="noopener">
@@ -89,7 +92,7 @@
       <span class="eyebrow">Resource</span>
       
 <h1>Troubleshooting</h1>
-<p class="lede">Common issues and how to fix them.</p>
+<p class="lede">Potential issues and how to fix them.</p>
 
 <h2 class="no-rule">Plugin won't enable</h2>
 <li>Make sure the latest versions of <code>PacketEvents</code> and <code>PacketEvents</code> are installed. They are both required dependencies, and CustomAdvancementMessages won't start without them.</li>
@@ -105,7 +108,7 @@
 
       <div class="prev-next"><a class="pn-link pn-prev" href="../permissions/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Permissions</div></a><a class="pn-link pn-next" href="../changelog/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Changelog</div></a></div>
       <footer class="page-footer">
-        <span>CustomAdvancementMessages v1.0.1 &middot; by <a href="../../">AFXPlugins</a></span>
+        <span>CustomAdvancementMessages v1.0.2 &middot; by <a href="../../">AFXPlugins</a></span>
         <span><a href="https://github.com/AFXPlugins/CustomAdvancementMessages" target="_blank" rel="noopener">Source on GitHub</a></span>
       </footer>
     </div>

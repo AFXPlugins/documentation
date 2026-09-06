@@ -9,13 +9,16 @@
 (function(){
   try {
     var t = localStorage.getItem('afxplugins-theme');
-    if (t === 'light' || t === 'dark') {
-      document.documentElement.setAttribute('data-theme', t);
+
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark';
     }
-    document.documentElement.setAttribute(
-      'data-toggle-state',
-      t === 'light' ? 'light' : 'dark'
-    );
+
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-toggle-state', t);
   } catch(e) {}
 })();
 </script>
@@ -27,7 +30,7 @@
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-<header class="topbar">
+<header class="topbar topbar-doc">
   <div class="topbar-inner">
     <button class="menu-btn" aria-label="Toggle navigation">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -41,10 +44,10 @@
 
     <a class="brand" href="../">
       <img class="brand-mark" src="../assets/img/logo-nametags.png" alt="CustomPlayerNametags logo">
-      CustomPlayerNametags
+      <span class="brand-label">CustomPlayerNametags</span>
     </a>
 
-    <span class="version-badge">v1.0.1</span>
+    <span class="version-badge">v1.1.0</span>
 
     <div class="topbar-links">
       <a class="icon-link" href="https://modrinth.com/plugin/customplayernametags" target="_blank" rel="noopener">
@@ -154,7 +157,7 @@
 
       <div class="prev-next"><a class="pn-link pn-prev" href="../configuration/"><div class="pn-dir">&larr; Previous</div><div class="pn-title">Configuration</div></a><a class="pn-link pn-next" href="../permissions/"><div class="pn-dir">Next &rarr;</div><div class="pn-title">Permissions</div></a></div>
       <footer class="page-footer">
-        <span>CustomPlayerNametags v1.0.1 &middot; by <a href="../../">AFXPlugins</a></span>
+        <span>CustomPlayerNametags v1.1.0 &middot; by <a href="../../">AFXPlugins</a></span>
         <span><a href="https://github.com/AFXPlugins/CustomPlayerNametags" target="_blank" rel="noopener">Source on GitHub</a></span>
       </footer>
     </div>
