@@ -8,7 +8,7 @@ OUT = os.path.join(BASE_DIR, "customadvancementmessages")
 
 REPO_URL = "https://github.com/AFXPlugins/CustomAdvancementMessages"
 MODRINTH_URL = "https://modrinth.com/plugin/customadvancementmessages"
-VERSION = "1.0.2"
+VERSION = "1.0.1"
 
 NAV = [
     ("Getting Started", [("index", "Overview"), ("installation", "Installation")]),
@@ -319,13 +319,6 @@ changelog_content = f'''
 <p class="lede">Notable changes to CustomAdvancementMessages, newest first.</p>
 
 <div class="changelog">
-
-<div class="changelog-entry">
-<div class="changelog-heading"><span class="changelog-version">1.0.2</span></div>
-<ul>
-<li>Made performance improvements.</li>
-</ul>
-</div>
 
 <div class="changelog-entry">
 <div class="changelog-heading"><span class="changelog-version">1.0.1</span></div>

@@ -1346,8 +1346,8 @@ a.card:hover {
 }
 
 .plugin-card-icon {
-  width: 94px;
-  height: 94px;
+  width: 82px;
+  height: 82px;
   border-radius: 9px;
   flex: none;
   box-shadow: 0 4px 12px -4px rgba(0,0,0,.45);
